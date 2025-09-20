@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      - run: npm ci
+      - run: npm install
       - run: npm run test
       - name: Test & publish code coverage
         uses: paambaati/codeclimate-action@v3.0.0
