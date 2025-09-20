@@ -7,7 +7,7 @@ import { IStoriesBlockProps, IStoryPreview } from './types'
 import React, { useState } from 'react'
 import Stories from 'react-insta-stories'
 
-export const StoriesBlock: React.FC<IStoriesBlockProps> = () => {
+export const StoriesBlock: React.FC<IStoriesBlockProps> = ({ stories = STORIES_CONFIG }) => {
   const [selectedStory, setSelectedStory] = useState<IStoryPreview | null>(null)
 
   const handleStoryClick = (story: IStoryPreview) => {
@@ -21,7 +21,7 @@ export const StoriesBlock: React.FC<IStoriesBlockProps> = () => {
   return (
     <div className="w-full mt-5">
       <div className="flex gap-4 pb-4 overflow-x-auto scrollbar-hide">
-        {STORIES_CONFIG.map((story) => (
+        {stories.map((story) => (
           <Story key={story.id} story={story} onClick={handleStoryClick} />
         ))}
       </div>

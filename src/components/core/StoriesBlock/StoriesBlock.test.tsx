@@ -66,9 +66,9 @@ describe('StoriesBlock', () => {
   })
 
   it('opens story viewer when story is clicked', () => {
-    render(<StoriesBlock stories={mockStories} />)
+    render(<StoriesBlock />)
 
-    const storyElement = screen.getByText('Test Story 1')
+    const storyElement = screen.getByText('Sketch to Mint')
     fireEvent.click(storyElement)
 
     expect(screen.getByTestId('stories-viewer')).toBeInTheDocument()
@@ -76,9 +76,9 @@ describe('StoriesBlock', () => {
   })
 
   it('closes story viewer when close button is clicked', () => {
-    render(<StoriesBlock stories={mockStories} />)
+    render(<StoriesBlock />)
 
-    const storyElement = screen.getByText('Test Story 1')
+    const storyElement = screen.getByText('Sketch to Mint')
     fireEvent.click(storyElement)
 
     expect(screen.getByTestId('stories-viewer')).toBeInTheDocument()
@@ -90,9 +90,9 @@ describe('StoriesBlock', () => {
   })
 
   it('closes story viewer when all stories end', () => {
-    render(<StoriesBlock stories={mockStories} />)
+    render(<StoriesBlock />)
 
-    const storyElement = screen.getByText('Test Story 1')
+    const storyElement = screen.getByText('Sketch to Mint')
     fireEvent.click(storyElement)
 
     expect(screen.getByTestId('stories-viewer')).toBeInTheDocument()
