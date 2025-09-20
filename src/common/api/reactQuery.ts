@@ -1,8 +1,8 @@
-import { fetcher } from "./fetcher";
-import { DEFAULT_STALE_TIME, DEFAULT_GC_TIME } from "./constants";
+import { DEFAULT_GC_TIME, DEFAULT_STALE_TIME } from './constants'
+import { fetcher } from './fetcher'
 
-import { useQuery, type UseQueryOptions } from "@tanstack/react-query";
-import type { AxiosRequestConfig } from "axios";
+import { type UseQueryOptions, useQuery } from '@tanstack/react-query'
+import type { AxiosRequestConfig } from 'axios'
 
 export const useFetch = <T>(
   queryName: string,
@@ -10,7 +10,7 @@ export const useFetch = <T>(
   fetchConfig?: Omit<UseQueryOptions<T, Error>, 'queryKey' | 'queryFn'>,
   enabled = true,
   config?: AxiosRequestConfig,
-  params?: object
+  params?: object,
 ) => {
   return useQuery({
     queryKey: [queryName],
@@ -19,5 +19,5 @@ export const useFetch = <T>(
     staleTime: DEFAULT_STALE_TIME,
     gcTime: DEFAULT_GC_TIME,
     ...fetchConfig,
-  });
-};
+  })
+}

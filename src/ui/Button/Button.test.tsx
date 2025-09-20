@@ -1,51 +1,50 @@
-import { render } from "@testing-library/react";
-import { screen } from "@testing-library/dom";
-import userEvent from "@testing-library/user-event";
-import { Button } from "./Button";
-import { describe, it, expect, vi } from "vitest";
+import { Button } from './Button'
 
-describe("Button", () => {
-  it("renders with text", () => {
-    render(<Button>Click me</Button>);
-    expect(
-      screen.getByRole("button", { name: "Click me" })
-    ).toBeInTheDocument();
-  });
+import { screen } from '@testing-library/dom'
+import { render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { describe, expect, it, vi } from 'vitest'
 
-  it("applies default base styles", () => {
-    render(<Button>Test</Button>);
-    const button = screen.getByRole("button");
+describe('Button', () => {
+  it('renders with text', () => {
+    render(<Button>Click me</Button>)
+    expect(screen.getByRole('button', { name: 'Click me' })).toBeInTheDocument()
+  })
 
-    expect(button).toHaveClass("inline-flex", "items-center", "justify-center");
-    expect(button).toHaveClass("bg-primary", "text-primary-foreground");
-    expect(button).toHaveClass("h-9", "px-4", "py-2");
-  });
+  it('applies default base styles', () => {
+    render(<Button>Test</Button>)
+    const button = screen.getByRole('button')
 
-  it("calls onClick when clicked", async () => {
-    const handleClick = vi.fn();
-    const user = userEvent.setup();
+    expect(button).toHaveClass('inline-flex', 'items-center', 'justify-center')
+    expect(button).toHaveClass('bg-primary', 'text-primary-foreground')
+    expect(button).toHaveClass('h-9', 'px-4', 'py-2')
+  })
 
-    render(<Button onClick={handleClick}>Click me</Button>);
+  it('calls onClick when clicked', async () => {
+    const handleClick = vi.fn()
+    const user = userEvent.setup()
 
-    await user.click(screen.getByRole("button"));
-    expect(handleClick).toHaveBeenCalledTimes(1);
-  });
+    render(<Button onClick={handleClick}>Click me</Button>)
 
-  it("passes additional props", () => {
+    await user.click(screen.getByRole('button'))
+    expect(handleClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('passes additional props', () => {
     render(
       <Button data-testid="custom-button" aria-label="Custom button">
         Test
-      </Button>
-    );
+      </Button>,
+    )
 
-    const button = screen.getByTestId("custom-button");
-    expect(button).toHaveAttribute("aria-label", "Custom button");
-  });
+    const button = screen.getByTestId('custom-button')
+    expect(button).toHaveAttribute('aria-label', 'Custom button')
+  })
 
-  it("applies custom classes", () => {
-    render(<Button className="custom-class">Test</Button>);
-    const button = screen.getByRole("button");
+  it('applies custom classes', () => {
+    render(<Button className="custom-class">Test</Button>)
+    const button = screen.getByRole('button')
 
-    expect(button).toHaveClass("custom-class");
-  });
-});
+    expect(button).toHaveClass('custom-class')
+  })
+})

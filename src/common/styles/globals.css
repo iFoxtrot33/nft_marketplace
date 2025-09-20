@@ -1,0 +1,12 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --max-width-container: 1440px;
+
+  --spacing-vertical-gap: 24px;
+
+  --color-background-black: rgba(17 24 28 / 1);
+}

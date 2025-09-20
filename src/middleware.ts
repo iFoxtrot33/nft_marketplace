@@ -6,11 +6,10 @@ import { type NextRequest } from 'next/server'
 const intlMiddleware = createIntlMiddleware(routing)
 
 export async function middleware(request: NextRequest) {
-
-
   return intlMiddleware(request)
 }
 
 export const config = {
-  matcher: ['/((?!api|_next|static|.*\\..*).*)'],
+  // Match only internationalized pathnames - more specific for better ISR support
+  matcher: ['/', '/(en)/:path*'],
 }

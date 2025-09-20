@@ -4,12 +4,14 @@ import { getMessages } from 'next-intl/server'
 
 import '@/common/styles/globals.css'
 
+import { WrapperLayout } from '@/components/core'
+
 export const metadata: Metadata = {
-  title: 'NFT Marketplace',
-  description: 'NFT Marketplace with internationalization',
+  title: 'Auth: NFT Marketplace',
+  description: 'Auth: NFT Marketplace with internationalization',
 }
 
-export default async function RootLayout({
+export default async function AuthLayout({
   children,
   params: { locale },
 }: Readonly<{
@@ -20,8 +22,10 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
-      <body className="bg-background-black">
-        <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+      <body className="bg-background-black min-h-screen">
+        <NextIntlClientProvider messages={messages}>
+          <WrapperLayout>{children}</WrapperLayout>
+        </NextIntlClientProvider>
       </body>
     </html>
   )
