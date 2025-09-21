@@ -13,5 +13,5 @@ export default async function AuthLayout({
   children: React.ReactNode
   params: { locale: string }
 }>) {
-  return <div className="h-screen overflow-hidden ">{children}</div>
+  return <div className="h-screen overflow-hidden overflow-y-hidden">{children}</div>
 }

@@ -13,5 +13,9 @@ export default async function AuthLayout({
   children: React.ReactNode
   params: { locale: string }
 }>) {
-  return <AuthGuardLayout>{children}</AuthGuardLayout>
+  return (
+    <div className="overflow-y-auto">
+      <AuthGuardLayout>{children}</AuthGuardLayout>
+    </div>
+  )
 }

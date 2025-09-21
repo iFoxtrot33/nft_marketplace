@@ -1,0 +1,1 @@
+export const ANIMATION_OFFSET_PERCENTAGE = -33.33

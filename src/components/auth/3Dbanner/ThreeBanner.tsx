@@ -1,5 +1,23 @@
 'use client'
 
+import {
+  AMBIENT_LIGHT_COLOR,
+  AMBIENT_LIGHT_INTENSITY,
+  CAMERA_FAR,
+  CAMERA_FOV,
+  CAMERA_NEAR,
+  CAMERA_POSITION_Z,
+  CLEAR_ALPHA,
+  CLEAR_COLOR,
+  DEFAULT_HEIGHT,
+  DEFAULT_WIDTH,
+  DRACO_DECODER_PATH,
+  INITIAL_ROTATION_X,
+  INITIAL_ROTATION_Y,
+  INITIAL_ROTATION_Z,
+  MODEL_PATH,
+  ROTATION_SENSITIVITY,
+} from './constants'
 import { IThreeBannerProps } from './types'
 
 import { useEffect, useRef } from 'react'
@@ -7,7 +25,7 @@ import * as THREE from 'three'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
-export const ThreeBanner: React.FC<IThreeBannerProps> = ({ width = 200, height = 200 }) => {
+export const ThreeBanner: React.FC<IThreeBannerProps> = ({ width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT }) => {
   const mountRef = useRef<HTMLDivElement>(null)
   const mouseRef = useRef({ x: 0, y: 0 })
   const isDraggingRef = useRef(false)
@@ -16,29 +34,29 @@ export const ThreeBanner: React.FC<IThreeBannerProps> = ({ width = 200, height =
     if (!mountRef.current) return
 
     const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000)
+    const camera = new THREE.PerspectiveCamera(CAMERA_FOV, width / height, CAMERA_NEAR, CAMERA_FAR)
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
 
     renderer.setSize(width, height)
-    renderer.setClearColor(0x000000, 0)
+    renderer.setClearColor(CLEAR_COLOR, CLEAR_ALPHA)
     mountRef.current.appendChild(renderer.domElement)
 
-    const light = new THREE.AmbientLight(0xffffff, 1)
+    const light = new THREE.AmbientLight(AMBIENT_LIGHT_COLOR, AMBIENT_LIGHT_INTENSITY)
     scene.add(light)
 
-    camera.position.z = 5
+    camera.position.z = CAMERA_POSITION_Z
 
     let model: THREE.Group | null = null
     let mixer: THREE.AnimationMixer | null = null
 
     const dracoLoader = new DRACOLoader()
-    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/')
+    dracoLoader.setDecoderPath(DRACO_DECODER_PATH)
 
     const loader = new GLTFLoader()
     loader.setDRACOLoader(dracoLoader)
 
     loader.load(
-      '/logo.glb',
+      MODEL_PATH,
       (gltf) => {
         model = gltf.scene
 
@@ -46,9 +64,9 @@ export const ThreeBanner: React.FC<IThreeBannerProps> = ({ width = 200, height =
         const center = box.getCenter(new THREE.Vector3())
         model.position.sub(center)
 
-        model.rotation.x = 0.0
-        model.rotation.y = -0.3
-        model.rotation.z = 0.0
+        model.rotation.x = INITIAL_ROTATION_X
+        model.rotation.y = INITIAL_ROTATION_Y
+        model.rotation.z = INITIAL_ROTATION_Z
 
         if (gltf.animations && gltf.animations.length > 0) {
           mixer = new THREE.AnimationMixer(model)
@@ -91,8 +109,8 @@ export const ThreeBanner: React.FC<IThreeBannerProps> = ({ width = 200, height =
       const deltaX = event.clientX - mouseRef.current.x
       const deltaY = event.clientY - mouseRef.current.y
 
-      model.rotation.y += deltaX * 0.01
-      model.rotation.x += deltaY * 0.01
+      model.rotation.y += deltaX * ROTATION_SENSITIVITY
+      model.rotation.x += deltaY * ROTATION_SENSITIVITY
 
       mouseRef.current = { x: event.clientX, y: event.clientY }
     }
@@ -117,8 +135,8 @@ export const ThreeBanner: React.FC<IThreeBannerProps> = ({ width = 200, height =
       const deltaX = touch.clientX - mouseRef.current.x
       const deltaY = touch.clientY - mouseRef.current.y
 
-      model.rotation.y += deltaX * 0.01
-      model.rotation.x += deltaY * 0.01
+      model.rotation.y += deltaX * ROTATION_SENSITIVITY
+      model.rotation.x += deltaY * ROTATION_SENSITIVITY
 
       mouseRef.current = { x: touch.clientX, y: touch.clientY }
     }

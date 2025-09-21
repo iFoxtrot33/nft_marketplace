@@ -1,5 +1,7 @@
 'use client'
 
+import { AuthLoader } from '../AuthLoader'
+
 import { useTonWallet } from '@tonconnect/ui-react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -12,12 +14,17 @@ export const AuthGuardLayout: React.FC<IWithChildrenProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 1000)
+    const authPrefetch = router.prefetch('/auth')
+    const homePrefetch = router.prefetch('/')
 
-    return () => clearTimeout(timer)
-  }, [])
+    const minTimer = setTimeout(() => {
+      Promise.all([authPrefetch, homePrefetch])
+        .then(() => setIsLoading(false))
+        .catch(() => setIsLoading(false))
+    }, 2000)
+
+    return () => clearTimeout(minTimer)
+  }, [router])
 
   useEffect(() => {
     if (!isLoading && !wallet) {
@@ -26,7 +33,7 @@ export const AuthGuardLayout: React.FC<IWithChildrenProps> = ({ children }) => {
   }, [wallet, isLoading, router])
 
   if (isLoading) {
-    return <div className="flex justify-center items-center h-screen text-white">Loading...</div>
+    return <AuthLoader />
   }
 
   if (!wallet) {

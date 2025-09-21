@@ -1,26 +1,31 @@
 'use client'
 
-import { ScrollingRow } from './NFTRow'
-import { NFTCardConstants } from './constants'
+import { NFTRow } from './NFTRow'
+import {
+  BASE_DURATION,
+  CARD_HEIGHT,
+  DURATION_INCREMENT,
+  HEADER_HEIGHT,
+  MARGIN_BOTTOM,
+  MIN_ROW_COUNT,
+  NFTCardConstants,
+} from './constants'
 import { generateRows } from './utils/generateRows'
 
 import { useEffect, useState } from 'react'
 
 export function NFTAnimation() {
-  const [rowCount, setRowCount] = useState(4)
+  const [rowCount, setRowCount] = useState(MIN_ROW_COUNT)
 
   useEffect(() => {
     const calculateRows = () => {
       const viewportHeight = window.innerHeight
-      const cardHeight = 86
-      const marginBottom = 16
-      const rowHeight = cardHeight + marginBottom
-      const headerHeight = 120
+      const rowHeight = CARD_HEIGHT + MARGIN_BOTTOM
 
-      const availableHeight = viewportHeight - headerHeight
+      const availableHeight = viewportHeight - HEADER_HEIGHT
       const neededRows = Math.ceil(availableHeight / rowHeight)
 
-      setRowCount(Math.max(neededRows, 3))
+      setRowCount(Math.max(neededRows, MIN_ROW_COUNT))
     }
 
     calculateRows()
@@ -35,7 +40,12 @@ export function NFTAnimation() {
     <div className="min-h-screen bg-gray-900 py-8">
       <div className="container mx-auto px-4">
         {rows.map((row, rowIndex) => (
-          <ScrollingRow key={rowIndex} direction={row.direction} nfts={row.nfts} duration={60 + rowIndex * 5} />
+          <NFTRow
+            key={rowIndex}
+            direction={row.direction}
+            nfts={row.nfts}
+            duration={BASE_DURATION + rowIndex * DURATION_INCREMENT}
+          />
         ))}
       </div>
     </div>

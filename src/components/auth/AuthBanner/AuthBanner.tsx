@@ -19,14 +19,10 @@ export const AuthBanner = () => {
               <p className="text-black opacity-60 text-12 font-bold">{t('banner.companyName')}</p>
             </div>
 
-            <div className="sm:hidden text-white text-2xl font-bold leading-8 font-inter mt-2">
+            <div className=" text-white text-2xl font-bold leading-8 font-inter mt-2">
               <p>{t('banner.nft')}</p>
               <p>{t('banner.marketplace')}</p>
             </div>
-
-            <p className="hidden sm:block text-white text-2xl font-bold leading-8 font-inter mt-2">
-              {t('banner.nft')} {t('banner.marketplace')}
-            </p>
           </div>
         </div>
       </div>

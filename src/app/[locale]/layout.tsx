@@ -20,7 +20,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
-      <body className={`bg-background-black ${inter.className}`} suppressHydrationWarning>
+      <body className={`bg-background-black overflow-y-hidden ${inter.className}`} suppressHydrationWarning>
         <Script src="https://telegram.org/js/telegram-web-app.js" strategy="beforeInteractive" />
         <WrapperLayout>
           <Providers>
