@@ -1,7 +1,7 @@
 import { ThreeBanner } from './ThreeBanner'
 
-import { render } from '@testing-library/react'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { cleanup, render } from '@testing-library/react'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 vi.mock('three', () => {
   const mockCanvas = document.createElement('canvas')
@@ -54,14 +54,33 @@ vi.mock('three/examples/jsm/loaders/DRACOLoader.js', () => ({
   })),
 }))
 
+// Store timeout IDs to clear them after tests
+const timeoutIds: number[] = []
+
 global.requestAnimationFrame = vi.fn((callback: FrameRequestCallback) => {
-  setTimeout(callback, 16)
-  return 1
+  const id = setTimeout(callback, 16) as unknown as number
+  timeoutIds.push(id)
+  return id
+})
+
+global.cancelAnimationFrame = vi.fn((id: number) => {
+  clearTimeout(id)
+  const index = timeoutIds.indexOf(id)
+  if (index > -1) {
+    timeoutIds.splice(index, 1)
+  }
 })
 
 describe('ThreeBanner', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+  })
+
+  afterEach(() => {
+    // Clear all pending timeouts after each test
+    timeoutIds.forEach((id) => clearTimeout(id))
+    timeoutIds.length = 0
+    cleanup()
   })
 
   it('renders with default props', () => {
