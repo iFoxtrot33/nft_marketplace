@@ -12,6 +12,7 @@
     "react-hooks/exhaustive-deps": "off",
     "no-extra-semi": "off",
     "camelcase": "off",
+
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
@@ -24,9 +25,11 @@
   "plugins": ["@typescript-eslint"],
   "overrides": [
     {
-      "files": ["*.test.tsx", "*.test.js"],
+      "files": ["*.test.tsx", "*.test.js", "*.test.ts"],
       "rules": {
-        "react/display-name": "off"
+        "react/display-name": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@next/next/no-img-element": "off"
       }
     }
   ]

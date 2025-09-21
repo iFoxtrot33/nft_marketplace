@@ -1,7 +1,6 @@
 import { AuthBanner } from './AuthBanner'
 
 import { render } from '@testing-library/react'
-import Image from 'next/image'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 vi.mock('next-intl', () => ({
@@ -25,7 +24,7 @@ vi.mock('../3Dbanner', () => ({
 
 vi.mock('next/image', () => ({
   default: vi.fn((props: { src: string; alt: string; width: number; height: number }) => (
-    <Image src={props.src} alt={props.alt} width={props.width} height={props.height} data-testid="logo-image" />
+    <img src={props.src} alt={props.alt} width={props.width} height={props.height} data-testid="logo-image" />
   )),
 }))
 
