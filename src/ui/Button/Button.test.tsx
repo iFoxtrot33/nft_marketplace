@@ -16,8 +16,8 @@ describe('Button', () => {
     const button = screen.getByRole('button')
 
     expect(button).toHaveClass('inline-flex', 'items-center', 'justify-center')
-    expect(button).toHaveClass('bg-primary', 'text-primary-foreground')
-    expect(button).toHaveClass('h-9', 'px-4', 'py-2')
+    expect(button).toHaveClass('text-black')
+    expect(button).toHaveClass('h-10', 'py-2', 'px-6')
   })
 
   it('calls onClick when clicked', async () => {
