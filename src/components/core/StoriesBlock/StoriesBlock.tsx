@@ -27,44 +27,43 @@ export const StoriesBlock: React.FC<IStoriesBlockProps> = ({ stories = STORIES_C
       </div>
 
       {selectedStory && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4">
-          <div className="relative w-full max-w-md h-full max-h-[600px]">
-            <button
-              onClick={handleCloseStory}
-              className="absolute top-4 right-4 z-[9999] text-white text-2xl hover:text-gray-300 transition-colors"
-            >
-              ✕
-            </button>
+        <div className="fixed inset-0 bg-black z-50">
+          <button
+            onClick={handleCloseStory}
+            className="absolute top-4 right-4 z-[9999] text-white text-2xl hover:text-gray-300 transition-colors"
+          >
+            ✕
+          </button>
 
-            <div className="w-full h-full overflow-hidden rounded-xl">
-              <Stories
-                stories={selectedStory.stories}
-                defaultInterval={5000}
-                width="100%"
-                height="100%"
-                onAllStoriesEnd={handleCloseStory}
-                storyStyles={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '12px',
-                }}
-                storyContainerStyles={{
-                  width: '100%',
-                  height: '100%',
-                  borderRadius: '12px',
-                  overflow: 'hidden',
-                  padding: '0',
-                  margin: '0',
-                }}
-                storyInnerContainerStyles={{
-                  width: '100%',
-                  height: '100%',
-                  padding: '0',
-                  margin: '0',
-                }}
-              />
-            </div>
+          <div className="w-full h-screen">
+            <Stories
+              stories={selectedStory.stories}
+              defaultInterval={5000}
+              width="100vw"
+              height="100vh"
+              onAllStoriesEnd={handleCloseStory}
+              storyStyles={{
+                width: '100vw',
+                height: '100vh',
+                objectFit: 'cover',
+              }}
+              storyContainerStyles={{
+                width: '100vw',
+                height: '100vh',
+                overflow: 'hidden',
+                padding: '0',
+                margin: '0',
+                position: 'absolute',
+                top: '0',
+                left: '0',
+              }}
+              storyInnerContainerStyles={{
+                width: '100vw',
+                height: '100vh',
+                padding: '0',
+                margin: '0',
+              }}
+            />
           </div>
         </div>
       )}
