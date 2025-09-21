@@ -1,7 +1,7 @@
 import { AuthGuardLayout } from './AuthGuardLayout'
 
 import { render, screen, waitFor } from '@testing-library/react'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const mockUseTonWallet = vi.fn()
 vi.mock('@tonconnect/ui-react', () => ({
