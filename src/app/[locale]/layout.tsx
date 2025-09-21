@@ -1,4 +1,3 @@
-import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { Inter } from 'next/font/google'
@@ -6,12 +5,9 @@ import Script from 'next/script'
 
 import '@/common/styles/globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
+import { StoriesBlock, WrapperLayout } from '@/components'
 
-export const metadata: Metadata = {
-  title: 'NFT Marketplace',
-  description: 'NFT Marketplace with internationalization',
-}
+const inter = Inter({ subsets: ['latin'] })
 
 export default async function RootLayout({
   children,
@@ -26,7 +22,12 @@ export default async function RootLayout({
     <html lang={locale}>
       <body className={`bg-background-black ${inter.className}`}>
         <Script src="https://telegram.org/js/telegram-web-app.js" strategy="beforeInteractive" />
-        <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+        <WrapperLayout>
+          <NextIntlClientProvider messages={messages}>
+            <StoriesBlock />
+            {children}
+          </NextIntlClientProvider>
+        </WrapperLayout>
       </body>
     </html>
   )

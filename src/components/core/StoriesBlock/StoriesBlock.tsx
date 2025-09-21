@@ -4,6 +4,7 @@ import { STORIES_CONFIG } from './StoriesConfig'
 import { Story } from './Story/Story'
 import { IStoriesBlockProps, IStoryPreview } from './types'
 
+import { X } from 'lucide-react'
 import React, { useState } from 'react'
 import Stories from 'react-insta-stories'
 
@@ -30,9 +31,9 @@ export const StoriesBlock: React.FC<IStoriesBlockProps> = ({ stories = STORIES_C
         <div className="fixed inset-0 bg-black z-50">
           <button
             onClick={handleCloseStory}
-            className="absolute top-4 right-4 z-[9999] text-white text-2xl hover:text-gray-300 transition-colors"
+            className="absolute top-4 right-4 z-[9999] text-white hover:text-gray-300 transition-colors p-2 rounded-full hover:bg-black/20"
           >
-            ✕
+            <X size={24} />
           </button>
 
           <div className="w-full h-screen">

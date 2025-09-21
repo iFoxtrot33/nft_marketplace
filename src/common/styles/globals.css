@@ -57,6 +57,11 @@
 
   --color-red-light: rgba(255, 107, 170, 1);
   --color-red-dark: rgba(255, 51, 153, 1);
+
+  --color-mountain-dew-1: rgba(255, 255, 122, 1);
+  --color-mountain-dew-2: rgba(253, 253, 80, 1);
+  --color-mountain-dew-3: rgba(203, 239, 87, 1);
+  --color-mountain-dew-4: rgba(166, 210, 22, 1);
 }
 
 .scrollbar-hide {
