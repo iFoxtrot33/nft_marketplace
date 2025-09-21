@@ -1,5 +1,7 @@
-export const revalidate = 600
-export const dynamic = 'force-static'
+import { FORCE_STATIC, TEN_MINUTES } from '@/common'
+
+export const revalidate = TEN_MINUTES
+export const dynamic = FORCE_STATIC
 
 export default function Home() {
   const buildTime = new Date().toLocaleString()

@@ -6,7 +6,7 @@ import { useTonWallet } from '@tonconnect/ui-react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-import { IWithChildrenProps } from '@/common'
+import { IWithChildrenProps, PageRoute } from '@/common'
 
 export const AuthGuardLayout: React.FC<IWithChildrenProps> = ({ children }) => {
   const wallet = useTonWallet()
@@ -14,8 +14,8 @@ export const AuthGuardLayout: React.FC<IWithChildrenProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const authPrefetch = router.prefetch('/auth')
-    const homePrefetch = router.prefetch('/')
+    const authPrefetch = router.prefetch(PageRoute.auth)
+    const homePrefetch = router.prefetch(PageRoute.home)
 
     const minTimer = setTimeout(() => {
       Promise.all([authPrefetch, homePrefetch])
@@ -28,7 +28,7 @@ export const AuthGuardLayout: React.FC<IWithChildrenProps> = ({ children }) => {
 
   useEffect(() => {
     if (!isLoading && !wallet) {
-      router.push('/auth')
+      router.push(PageRoute.auth)
     }
   }, [wallet, isLoading, router])
 
