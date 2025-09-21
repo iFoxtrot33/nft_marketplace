@@ -72,7 +72,7 @@ describe('StoriesBlock', () => {
     fireEvent.click(storyElement)
 
     expect(screen.getByTestId('stories-viewer')).toBeInTheDocument()
-    expect(screen.getByText('✕')).toBeInTheDocument()
+    expect(screen.getByTestId('close-story-button')).toBeInTheDocument()
   })
 
   it('closes story viewer when close button is clicked', () => {
@@ -83,7 +83,7 @@ describe('StoriesBlock', () => {
 
     expect(screen.getByTestId('stories-viewer')).toBeInTheDocument()
 
-    const closeButton = screen.getByText('✕')
+    const closeButton = screen.getByTestId('close-story-button')
     fireEvent.click(closeButton)
 
     expect(screen.queryByTestId('stories-viewer')).not.toBeInTheDocument()

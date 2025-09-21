@@ -31,6 +31,7 @@ export const StoriesBlock: React.FC<IStoriesBlockProps> = ({ stories = STORIES_C
         <div className="fixed inset-0 bg-black z-50">
           <button
             onClick={handleCloseStory}
+            data-testid="close-story-button"
             className="absolute top-4 right-4 z-[9999] text-white hover:text-gray-300 transition-colors p-2 rounded-full hover:bg-black/20"
           >
             <X size={24} />
