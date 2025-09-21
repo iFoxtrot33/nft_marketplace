@@ -21,7 +21,7 @@ export const AuthGuardLayout: React.FC<IWithChildrenProps> = ({ children }) => {
 
   useEffect(() => {
     if (!isLoading && !wallet) {
-      router.push('/login')
+      router.push('/auth')
     }
   }, [wallet, isLoading, router])
 

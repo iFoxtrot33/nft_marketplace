@@ -1,7 +1,11 @@
 import { AuthPage } from '@/components'
 
-// export const dynamic = 'force-static'
+export const dynamic = 'force-static'
 
 export default function Auth() {
-  return <AuthPage />
+  return (
+    <div>
+      <AuthPage />
+    </div>
+  )
 }

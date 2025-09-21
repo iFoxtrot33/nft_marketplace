@@ -1,10 +1,20 @@
 'use client'
 
 import { Button } from '@/ui/Button'
-import { useTonConnectUI } from '@tonconnect/ui-react'
+import { useTonConnectUI, useTonWallet } from '@tonconnect/ui-react'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 export const Login = () => {
   const [tonConnectUI] = useTonConnectUI()
+  const wallet = useTonWallet()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (wallet) {
+      router.push('/')
+    }
+  }, [wallet, router])
 
   const handleConnect = () => {
     tonConnectUI.openModal()
