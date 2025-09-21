@@ -1,16 +1,13 @@
 'use client'
 
-import React, { useEffect, useRef } from 'react'
+import { IThreeBannerProps } from './types'
+
+import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
-interface SimpleLogoProps {
-  width?: number
-  height?: number
-}
-
-export const ThreeBanner: React.FC<SimpleLogoProps> = ({ width = 200, height = 200 }) => {
+export const ThreeBanner: React.FC<IThreeBannerProps> = ({ width = 200, height = 200 }) => {
   const mountRef = useRef<HTMLDivElement>(null)
   const mouseRef = useRef({ x: 0, y: 0 })
   const isDraggingRef = useRef(false)

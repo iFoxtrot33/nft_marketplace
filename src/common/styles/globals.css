@@ -8,37 +8,8 @@
 
   --spacing-vertical-gap: 24px;
 
-  /* Font Sizes */
-
-  --font-size-10: 10px;
-  --font-size-12: 12px;
-  --font-size-14: 14px;
-  --font-size-16: 16px;
-  --font-size-18: 18px;
-  --font-size-20: 20px;
-  --font-size-24: 24px;
-
-  /* Font Weights */
-
-  --font-weight-500: 500;
-  --font-weight-600: 600;
-  --font-weight-700: 700;
-  --font-weight-800: 800;
-  --font-weight-900: 900;
-
-  /* Line Heights */
-
-  --line-height-12: 12px;
-  --line-height-14: 14px;
-  --line-height-16: 16px;
-  --line-height-18: 18px;
-  --line-height-20: 20px;
-  --line-height-24: 24px;
-
-  /* Font Styles */
-
-  --font-style-normal: normal;
-
+  /* Breakpoints */
+  --breakpoint-sm: 360px;
   /* Colors */
 
   --color-background-black: rgba(17 24 28 / 1);
@@ -62,13 +33,19 @@
   --color-mountain-dew-2: rgba(253, 253, 80, 1);
   --color-mountain-dew-3: rgba(203, 239, 87, 1);
   --color-mountain-dew-4: rgba(166, 210, 22, 1);
+
+  --color-disabled-1: rgba(204, 239, 87, 1);
+  --color-disabled-2: rgba(101, 84, 213, 1);
+  --color-disabled-3: rgba(54, 57, 62, 1);
+  --color-disabled-4: rgba(109, 129, 44, 1);
+  --color-disabled-5: rgba(62, 65, 70, 1);
 }
 
 .scrollbar-hide {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .scrollbar-hide::-webkit-scrollbar {
-  display: none; /* Chrome, Safari and Opera */
+  display: none;
 }

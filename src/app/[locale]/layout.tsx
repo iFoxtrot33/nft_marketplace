@@ -5,7 +5,7 @@ import Script from 'next/script'
 
 import '@/common/styles/globals.css'
 
-import { StoriesBlock, WrapperLayout } from '@/components'
+import { Providers, StoriesBlock, WrapperLayout } from '@/components'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,10 +23,12 @@ export default async function RootLayout({
       <body className={`bg-background-black ${inter.className}`}>
         <Script src="https://telegram.org/js/telegram-web-app.js" strategy="beforeInteractive" />
         <WrapperLayout>
-          <NextIntlClientProvider messages={messages}>
-            <StoriesBlock />
-            {children}
-          </NextIntlClientProvider>
+          <Providers>
+            <NextIntlClientProvider messages={messages}>
+              <StoriesBlock />
+              {children}
+            </NextIntlClientProvider>
+          </Providers>
         </WrapperLayout>
       </body>
     </html>
