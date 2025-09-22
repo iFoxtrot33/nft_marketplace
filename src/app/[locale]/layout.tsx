@@ -19,8 +19,8 @@ export default async function RootLayout({
   const messages = await getMessages()
 
   return (
-    <html lang={locale}>
-      <body className={`bg-background-black overflow-y-hidden ${inter.className}`} suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning={true}>
+      <body className={`bg-background-black overflow-y-hidden ${inter.className}`} suppressHydrationWarning={true}>
         <Script src="https://telegram.org/js/telegram-web-app.js" strategy="beforeInteractive" />
         <WrapperLayout>
           <Providers>

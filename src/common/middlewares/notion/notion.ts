@@ -2,11 +2,11 @@ import { Client } from '@notionhq/client'
 import { NextRequest, NextResponse } from 'next/server'
 
 const notion = new Client({
-  auth: process.env.NEXT_PUBLIC_NOTION_TOKEN,
+  auth: process.env.NOTION_TOKEN,
 })
 
 export const NOTION_VERSION = '2022-06-28'
-export const NFT_DATABASE_ID = process.env.NEXT_PUBLIC_NOTION_NFTS_TABLE_ID!
+export const NFT_DATABASE_ID = process.env.NOTION_NFTS_TABLE_ID!
 
 export interface NotionRequest extends NextRequest {
   notion: Client
@@ -18,7 +18,7 @@ export function withNotionHeaders<T extends unknown[]>(
 ) {
   return async function (req: NextRequest, ...args: T): Promise<NextResponse> {
     ;(req as NotionRequest).notionHeaders = {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_NOTION_TOKEN}`,
+      Authorization: `Bearer ${process.env.NOTION_TOKEN}`,
       'Content-Type': 'application/json',
       'Notion-Version': NOTION_VERSION,
     }

@@ -113,6 +113,70 @@
               }
             }
           }
+        },
+        "CartData": {
+          "type": "object",
+          "properties": {
+            "page_id": {
+              "type": "string",
+              "description": "Unique Notion page ID"
+            },
+            "title": {
+              "type": "string",
+              "description": "Cart title"
+            },
+            "user_id": {
+              "type": "string",
+              "description": "User ID who owns the cart"
+            },
+            "nfts": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Array of NFT addresses"
+            },
+            "created_time": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Creation time"
+            },
+            "last_edited_time": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Last modification time"
+            }
+          }
+        },
+        "AddToCartRequest": {
+          "type": "object",
+          "properties": {
+            "nft_address": {
+              "type": "string",
+              "description": "NFT address to add to cart"
+            }
+          },
+          "required": ["nft_address"]
+        },
+        "RemoveFromCartRequest": {
+          "type": "object",
+          "properties": {
+            "nft_address": {
+              "type": "string",
+              "description": "NFT address to remove from cart"
+            }
+          },
+          "required": ["nft_address"]
+        },
+        "DeleteCartRequest": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string",
+              "description": "User ID whose cart to delete"
+            }
+          },
+          "required": ["user_id"]
         }
       }
     }

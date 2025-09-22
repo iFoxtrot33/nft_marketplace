@@ -1,14 +1,17 @@
 import { NextResponse } from 'next/server'
 
 import {
-  Endpoints,
-  NFTData,
+  FORCE_DYNAMIC,
   NotionRequest,
+  createNFT,
+  deleteNFT,
   findNFTPageIdByAddress,
-  getNextAvailableId,
   logger,
+  updateNFT,
   withNotionHeaders,
 } from '@/common'
+
+export const dynamic = FORCE_DYNAMIC
 
 /**
  * @swagger
@@ -99,70 +102,17 @@ async function postHandler(req: NotionRequest, { params }: { params: { address: 
 
     logger.info({ nft_address: address }, 'Create NFT request')
 
-    const [existingNFT, nextId] = await Promise.all([
-      findNFTPageIdByAddress(address, req.notionHeaders),
-      getNextAvailableId(req.notionHeaders),
-    ])
+    const result = await createNFT(address, req.notionHeaders)
 
-    if (existingNFT.found) {
-      return NextResponse.json({ error: 'NFT with this address already exists' }, { status: 409 })
+    if (!result.success) {
+      const statusCode = result.error === 'NFT with this address already exists' ? 409 : 400
+      return NextResponse.json({ error: result.error }, { status: statusCode })
     }
-
-    const response = await fetch(Endpoints.createNFT, {
-      method: 'POST',
-      headers: req.notionHeaders,
-      body: JSON.stringify({
-        parent: {
-          database_id: process.env.NEXT_PUBLIC_NOTION_NFTS_TABLE_ID,
-        },
-        properties: {
-          '': {
-            title: [
-              {
-                text: {
-                  content: nextId.toString(),
-                },
-              },
-            ],
-          },
-          id: {
-            number: nextId,
-          },
-          nft_address: {
-            rich_text: [
-              {
-                text: {
-                  content: address,
-                },
-              },
-            ],
-          },
-        },
-      }),
-    })
-
-    const data = await response.json()
-
-    if (!response.ok) {
-      logger.error({ status: response.status, data }, 'Failed to create NFT')
-      return NextResponse.json({ error: 'Failed to create NFT' }, { status: response.status })
-    }
-
-    const createdNFT: NFTData = {
-      page_id: data.id,
-      id: data.properties.id.number,
-      title: data.properties['']?.title?.[0]?.plain_text || '',
-      nft_address: data.properties.nft_address?.rich_text?.[0]?.plain_text || '',
-      created_time: data.created_time,
-      last_edited_time: data.last_edited_time,
-    }
-
-    logger.info({ page_id: data.id, nft_address: address, id: nextId }, 'NFT created successfully')
 
     return NextResponse.json(
       {
         success: true,
-        data: createdNFT,
+        data: result.nft,
       },
       { status: 201 },
     )
@@ -230,61 +180,19 @@ async function patchHandler(req: NotionRequest, { params }: { params: { address:
 
     logger.info({ current_address: address, new_address: body.updated_nft_address }, 'Update NFT address request')
 
-    const [currentNFT, existingNFT] = await Promise.all([
-      findNFTPageIdByAddress(address, req.notionHeaders),
-      findNFTPageIdByAddress(body.updated_nft_address, req.notionHeaders),
-    ])
+    const result = await updateNFT(address, body.updated_nft_address, req.notionHeaders)
 
-    if (!currentNFT.found || !currentNFT.page_id) {
-      return NextResponse.json({ error: 'NFT with current address not found' }, { status: 404 })
+    if (!result.success) {
+      let statusCode = 400
+      if (result.error === 'NFT with current address not found') statusCode = 404
+      if (result.error === 'NFT with new address already exists') statusCode = 409
+
+      return NextResponse.json({ error: result.error }, { status: statusCode })
     }
-
-    if (existingNFT.found) {
-      return NextResponse.json({ error: 'NFT with new address already exists' }, { status: 409 })
-    }
-
-    const response = await fetch(Endpoints.updateNFT(currentNFT.page_id), {
-      method: 'PATCH',
-      headers: req.notionHeaders,
-      body: JSON.stringify({
-        properties: {
-          nft_address: {
-            rich_text: [
-              {
-                text: {
-                  content: body.updated_nft_address,
-                },
-              },
-            ],
-          },
-        },
-      }),
-    })
-
-    const data = await response.json()
-
-    if (!response.ok) {
-      logger.error({ status: response.status, data }, 'Failed to update NFT')
-      return NextResponse.json({ error: 'Failed to update NFT' }, { status: response.status })
-    }
-
-    const updatedNFT: NFTData = {
-      page_id: data.id,
-      id: data.properties.id.number,
-      title: data.properties['']?.title?.[0]?.plain_text || '',
-      nft_address: data.properties.nft_address?.rich_text?.[0]?.plain_text || '',
-      created_time: data.created_time,
-      last_edited_time: data.last_edited_time,
-    }
-
-    logger.info(
-      { page_id: data.id, old_address: address, new_address: body.updated_nft_address },
-      'NFT updated successfully',
-    )
 
     return NextResponse.json({
       success: true,
-      data: updatedNFT,
+      data: result.nft,
     })
   } catch (error) {
     logger.error({ error }, 'Error updating NFT')
@@ -343,32 +251,17 @@ async function deleteHandler(req: NotionRequest, { params }: { params: { address
 
     logger.info({ nft_address: address }, 'Delete NFT request')
 
-    const currentNFT = await findNFTPageIdByAddress(address, req.notionHeaders)
-    if (!currentNFT.found || !currentNFT.page_id) {
-      return NextResponse.json({ error: 'NFT not found' }, { status: 404 })
+    const result = await deleteNFT(address, req.notionHeaders)
+
+    if (!result.success) {
+      const statusCode = result.error === 'NFT not found' ? 404 : 500
+      return NextResponse.json({ error: result.error }, { status: statusCode })
     }
-
-    const response = await fetch(Endpoints.deleteNFT(currentNFT.page_id), {
-      method: 'PATCH',
-      headers: req.notionHeaders,
-      body: JSON.stringify({
-        archived: true,
-      }),
-    })
-
-    const data = await response.json()
-
-    if (!response.ok) {
-      logger.error({ status: response.status, data }, 'Failed to delete NFT')
-      return NextResponse.json({ error: 'Failed to delete NFT' }, { status: response.status })
-    }
-
-    logger.info({ page_id: currentNFT.page_id, nft_address: address }, 'NFT deleted successfully')
 
     return NextResponse.json({
       success: true,
-      message: 'NFT deleted successfully',
-      page_id: currentNFT.page_id,
+      message: result.message,
+      page_id: result.page_id,
     })
   } catch (error) {
     logger.error({ error }, 'Error deleting NFT')

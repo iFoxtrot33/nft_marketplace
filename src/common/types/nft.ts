@@ -1,4 +1,3 @@
-// types/nft.ts
 export interface NFTData {
   page_id: string
   id: number
@@ -62,4 +61,10 @@ export interface NFTUpdateResponse {
 export interface NFTDeleteResponse {
   success: boolean
   message: string
+}
+
+export interface FindNFTByAddressResult {
+  page_id: string | null
+  found: boolean
+  nft?: NFTData
 }
