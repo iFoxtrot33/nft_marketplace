@@ -13,5 +13,5 @@ export abstract class Endpoints {
   static deleteCart = (id: string) => `${process.env.NOTION_BASE_URL}/pages/${id}`
 
   //Marketplace endpoints
-  static getAllNFTPictures = `${process.env.NEXT_PUBLIC_BASE_MARKETPLACE_URL}/nft/all`
+  static getAllNFTPictures = `${process.env.NEXT_PUBLIC_BASE_MARKETPLACE_URL}/api/nft`
 }
