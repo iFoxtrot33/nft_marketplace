@@ -1,4 +1,6 @@
 NEXT_PUBLIC_NOTION_BASE_URL=https://api.notion.com/v1
+NEXT_PUBLIC_BASE_MARKETPLACE_URL=https://nft-marketplace-iurii.vercel.app/api
+
 
 NEXT_PUBLIC_NOTION_TOKEN=
 NEXT_PUBLIC_NOTION_NFTS_TABLE_ID=

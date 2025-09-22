@@ -1,0 +1,1 @@
+export { useGetNFTs } from './useGetNFTs'
