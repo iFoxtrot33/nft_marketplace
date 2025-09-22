@@ -22,7 +22,7 @@ export default async function AuthLayout({
   params: { locale: string }
 }>) {
   return (
-    <div className="overflow-y-auto">
+    <div className="overflow-y-auto overflow-x-hidden">
       <AuthGuardLayout>{children}</AuthGuardLayout>
     </div>
   )

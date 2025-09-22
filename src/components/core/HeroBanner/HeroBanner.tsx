@@ -3,7 +3,7 @@ import { ThreeBanner } from '../3Dbanner'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 
-export const AuthBanner = () => {
+export const HeroBanner = () => {
   const t = useTranslations('authPage')
 
   return (

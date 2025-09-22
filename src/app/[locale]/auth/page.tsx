@@ -6,7 +6,7 @@ export const dynamic = FORCE_STATIC
 
 export default function Auth() {
   return (
-    <div overflow-y-hidden>
+    <div className="overflow-y-hidden">
       <AuthPage />
     </div>
   )

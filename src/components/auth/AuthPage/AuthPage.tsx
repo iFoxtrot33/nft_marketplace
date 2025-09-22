@@ -1,11 +1,9 @@
-import { AuthBanner } from '../AuthBanner'
-import { Login } from '../Login'
-import { NFTAnimation } from '../NFTAnimation'
+import { HeroBanner, Login, NFTAnimation } from '@/components'
 
 export const AuthPage = () => {
   return (
     <div>
-      <AuthBanner />
+      <HeroBanner />
       <Login />
       <NFTAnimation />
     </div>

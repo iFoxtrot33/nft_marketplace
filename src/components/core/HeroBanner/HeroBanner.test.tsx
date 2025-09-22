@@ -1,4 +1,4 @@
-import { AuthBanner } from './AuthBanner'
+import { HeroBanner } from './HeroBanner'
 
 import { render } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
@@ -35,18 +35,18 @@ describe('AuthBanner', () => {
 
   it('renders without crashing', () => {
     expect(() => {
-      render(<AuthBanner />)
+      render(<HeroBanner />)
     }).not.toThrow()
   })
 
   it('renders company name', () => {
-    const { getByText } = render(<AuthBanner />)
+    const { getByText } = render(<HeroBanner />)
 
     expect(getByText('DigiCollect')).toBeInTheDocument()
   })
 
   it('renders logo image', () => {
-    const { getByTestId } = render(<AuthBanner />)
+    const { getByTestId } = render(<HeroBanner />)
 
     const logoImage = getByTestId('logo-image')
     expect(logoImage).toBeInTheDocument()
@@ -55,7 +55,7 @@ describe('AuthBanner', () => {
   })
 
   it('renders 3D banner component', () => {
-    const { getByTestId } = render(<AuthBanner />)
+    const { getByTestId } = render(<HeroBanner />)
 
     const threeBanner = getByTestId('three-banner')
     expect(threeBanner).toBeInTheDocument()
@@ -66,14 +66,14 @@ describe('AuthBanner', () => {
   })
 
   it('renders NFT text for mobile and desktop versions', () => {
-    const { getAllByText } = render(<AuthBanner />)
+    const { getAllByText } = render(<HeroBanner />)
 
     const nftElements = getAllByText('NFT')
     expect(nftElements.length).toBeGreaterThan(0)
   })
 
   it('renders Marketplace text for mobile and desktop versions', () => {
-    const { getAllByText } = render(<AuthBanner />)
+    const { getAllByText } = render(<HeroBanner />)
 
     const marketplaceElements = getAllByText('Marketplace')
     expect(marketplaceElements.length).toBeGreaterThan(0)
