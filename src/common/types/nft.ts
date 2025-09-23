@@ -68,3 +68,35 @@ export interface FindNFTByAddressResult {
   found: boolean
   nft?: NFTData
 }
+
+export interface TONNFTData {
+  address: string
+  index: number
+  owner: {
+    address: string
+    is_scam: boolean
+    is_wallet: boolean
+  }
+  collection: {
+    address: string
+    name: string
+    description: string
+  }
+  verified: boolean
+  metadata: {
+    attributes: Array<{
+      trait_type?: string
+      value?: string
+    }>
+    description: string
+    marketplace: string
+    name: string
+    image: string
+  }
+  previews: Array<{
+    resolution: string
+    url: string
+  }>
+  approved_by: string[]
+  trust: string
+}

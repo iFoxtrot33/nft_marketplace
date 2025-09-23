@@ -10,3 +10,6 @@ export const post = <TResponse, TRequest = unknown>(url: string, data: TRequest,
   axios.post<TResponse>(url, data, config)
 
 export const put = <T>(url: string, data: T, params?: object) => axios.put<T>(url, data, { ...params })
+
+export const del = <TResponse, TRequest = unknown>(url: string, data?: TRequest, config?: AxiosRequestConfig) =>
+  axios.delete<TResponse>(url, { ...config, data })

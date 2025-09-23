@@ -3,5 +3,13 @@
     "title": "DigiCollect: NFT TON Marketplace",
     "description": "The best way to buy NFTs"
   },
-  "title": "Home Page"
+  "title": "Home Page",
+  "noNFTsFound": "Unfortunately, we are currently out of stock. Please check back with us later.",
+  "emptyStock": "Sorry, we have some problems with this NFT, please try to check it later",
+  "nftModalTitle": "NFT Details",
+  "nftName": "Name:",
+  "nftDescription": "Description:",
+  "nftRawAddress": "NFT Raw Address:",
+  "nftFriendlyAddress": "NFT Friendly Address:",
+  "ownerAddress": "Owner Address:"
 }

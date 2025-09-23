@@ -5,14 +5,9 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts')
 
 const nextConfig = {
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'picsum.photos',
-        port: '',
-        pathname: '/**',
-      },
-    ],
+    minimumCacheTTL: 86400,
+    loader: 'custom',
+    loaderFile: './src/common/utils/imageLoader.ts',
   },
 }
 

@@ -11,10 +11,12 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   const homePage = await import(`../../messages/${locale}/home.json`)
   const authPage = await import(`../../messages/${locale}/auth.json`)
+  const common = await import(`../../messages/${locale}/common.json`)
 
   const messages = {
     homePage: homePage.default,
     authPage: authPage.default,
+    common: common.default,
   }
 
   return {

@@ -10,9 +10,11 @@
 
   /* Breakpoints */
   --breakpoint-sm: 360px;
-  /* Colors */
+  --breakpoint-md: 768px;
 
-  --color-background-black: rgba(17 24 28 / 1);
+  /* Colors */
+  --color-background-black: rgba(17, 24, 28, 1);
+  --color-background-black-2: rgba(39, 39, 42, 1);
 
   --color-purple-light: rgba(101, 84, 213, 1);
   --color-purple-dark: rgba(79, 56, 168, 1);
@@ -44,8 +46,22 @@
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
+  overflow: -moz-scrollbars-none;
 }
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+  width: 0;
+  height: 0;
+}
+
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }

@@ -1,6 +1,7 @@
 import { DEFAULT_GC_TIME, DEFAULT_STALE_TIME } from '../../api/constants'
 import { Endpoints } from '../../api/endpoints'
 import { fetcher } from '../../api/fetcher'
+import { retryConfig } from '../../api/utils'
 import { APIResponse, UseGetNFTsProps, UseGetNFTsReturn } from './types'
 
 import { useInfiniteQuery } from '@tanstack/react-query'
@@ -16,12 +17,13 @@ export const useGetNFTs = ({ limit = 12 }: UseGetNFTsProps = {}): UseGetNFTsRetu
       return fetcher<APIResponse>(Endpoints.getAllNFTPictures, params)
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages) => {
+    getNextPageParam: (lastPage) => {
       if (lastPage.pagination.has_more) {
-        return allPages.length * limit
+        return lastPage.pagination.offset + lastPage.pagination.returned
       }
       return undefined
     },
+    ...retryConfig,
     staleTime: DEFAULT_STALE_TIME,
     gcTime: DEFAULT_GC_TIME,
   })

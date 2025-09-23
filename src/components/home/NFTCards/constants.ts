@@ -1,0 +1,2 @@
+export const INFINITE_SCROLL_ROOT_MARGIN = '50px'
+export const INFINITE_SCROLL_THRESHOLD = 0.1
