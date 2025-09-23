@@ -18,4 +18,6 @@ export abstract class Endpoints {
   static addToCart = (userid: string) => `/api/cart/${userid}`
   static getCart = (userid: string) => `/api/cart/${userid}`
   static removeItemFromCart = (userid: string) => `/api/cart/${userid}`
+  static deleteAllItemsInCart = (userid: string) => `/api/cart/${userid}/all`
+  static deleteCartCompletely = (userid: string) => `/api/cart/${userid}/delete`
 }
