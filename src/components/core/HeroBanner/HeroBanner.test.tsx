@@ -28,6 +28,18 @@ vi.mock('next/image', () => ({
   )),
 }))
 
+vi.mock('next/navigation', () => ({
+  usePathname: vi.fn(() => '/auth'),
+}))
+
+vi.mock('@/common', () => ({
+  useLogOut: vi.fn(() => ({
+    logOut: vi.fn(),
+    isLoading: false,
+    error: null,
+  })),
+}))
+
 describe('AuthBanner', () => {
   beforeEach(() => {
     vi.clearAllMocks()
