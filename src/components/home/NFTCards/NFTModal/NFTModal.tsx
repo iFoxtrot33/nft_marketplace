@@ -1,12 +1,18 @@
 'use client'
 
-import { NEXT_ATTEMPT_DELAY, TRANSITION_DURATION } from './constants'
+import {
+  ARRAY_INDEX_OFFSET,
+  FALLBACK_INDEX,
+  INITIAL_IMAGE_INDEX,
+  NEXT_ATTEMPT_DELAY,
+  TRANSITION_DURATION,
+} from './constants'
 import { INFTModalProps } from './types'
 import { buildProxiedCandidateUrls, getImageUrlByIndex, scheduleNextAttempt } from './utils'
 
 import { Button } from '@/ui/Button'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/ui/dialog'
-import { Skeleton } from '@/ui/skeleton'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/ui/Dialog/Dialog'
+import { Skeleton } from '@/ui/Skeleton/Skeleton'
 import { X } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
@@ -19,7 +25,7 @@ export const NFTModal: React.FC<INFTModalProps> = ({ isOpen, onClose, nftAddress
   const { data: nftData, isLoading } = useGetNFT({ address: nftAddress || '' })
   const [imageLoading, setImageLoading] = useState(true)
   const [imageError, setImageError] = useState(false)
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [currentImageIndex, setCurrentImageIndex] = useState(INITIAL_IMAGE_INDEX)
   const { addToCart } = useAddToCart()
   const { removeFromCart } = useRemoveItemFromCart()
   const { cart } = useCart()
@@ -36,11 +42,11 @@ export const NFTModal: React.FC<INFTModalProps> = ({ isOpen, onClose, nftAddress
     if (!isOpen) return
     setImageLoading(true)
     setImageError(false)
-    setCurrentImageIndex(0)
+    setCurrentImageIndex(INITIAL_IMAGE_INDEX)
   }, [isOpen, nftAddress, candidateUrls.join('|')])
 
   const handleImageError = () => {
-    const lastIndex = Math.max(candidateUrls.length - 1, 0)
+    const lastIndex = Math.max(candidateUrls.length + ARRAY_INDEX_OFFSET, FALLBACK_INDEX)
     if (currentImageIndex < lastIndex) {
       setImageLoading(true)
       scheduleNextAttempt(currentImageIndex, setCurrentImageIndex, NEXT_ATTEMPT_DELAY)
@@ -70,7 +76,6 @@ export const NFTModal: React.FC<INFTModalProps> = ({ isOpen, onClose, nftAddress
         </button>
 
         <div className="space-y-4">
-          {/* Image */}
           <div className="flex justify-center relative">
             {imageLoading && <Skeleton className="w-[300px] h-[300px] rounded-lg" />}
             {!imageError ? (
@@ -91,37 +96,31 @@ export const NFTModal: React.FC<INFTModalProps> = ({ isOpen, onClose, nftAddress
             )}
           </div>
 
-          {/* Name */}
           <div>
             <h3 className="font-semibold text-[var(--color-mountain-dew-2)]">{t('nftName')}</h3>
             <p className="text-white">{nftData.metadata.name || 'N/A'}</p>
           </div>
 
-          {/* Description */}
           <div>
             <h3 className="font-semibold text-[var(--color-mountain-dew-2)]">{t('nftDescription')}</h3>
             <p className="text-white">{nftData.metadata.description || 'N/A'}</p>
           </div>
 
-          {/* NFT Address */}
           <div>
             <h3 className="font-semibold text-[var(--color-mountain-dew-2)]	">{t('nftRawAddress')}</h3>
             <p className="text-white break-all text-sm">{nftData.address || 'N/A'}</p>
           </div>
 
-          {/* NFT Friendly Address */}
           <div>
             <h3 className="font-semibold text-[var(--color-mountain-dew-2)]">{t('nftFriendlyAddress')}</h3>
             <p className="text-white break-all text-sm">{toFriendlyAddress(nftData.address)}</p>
           </div>
 
-          {/* Owner Address */}
           <div>
             <h3 className="font-semibold text-[var(--color-mountain-dew-2)]">{t('ownerAddress')}</h3>
             <p className="text-white break-all text-sm">{nftData.owner?.address || 'N/A'}</p>
           </div>
 
-          {/* Add / Remove button */}
           <div>
             {isInCart ? (
               <Button
@@ -132,7 +131,7 @@ export const NFTModal: React.FC<INFTModalProps> = ({ isOpen, onClose, nftAddress
                   onClose()
                 }}
               >
-                Remove Item
+                {t('nftModal.removeItem')}
               </Button>
             ) : (
               <Button
@@ -142,7 +141,7 @@ export const NFTModal: React.FC<INFTModalProps> = ({ isOpen, onClose, nftAddress
                   onClose()
                 }}
               >
-                Add to cart
+                {t('nftModal.addToCart')}
               </Button>
             )}
           </div>

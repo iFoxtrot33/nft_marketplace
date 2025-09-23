@@ -1,11 +1,13 @@
 'use client'
 
 import { ThreeBanner } from '../3Dbanner'
+import { LogoutModal } from '../LogOutModal'
 
 import { LogOut } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import { useState } from 'react'
 
 import { useLogOut } from '@/common'
 
@@ -13,8 +15,22 @@ export const HeroBanner = () => {
   const t = useTranslations('authPage')
   const pathname = usePathname()
   const { logOut, isLoading } = useLogOut()
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
 
   const isHomePage = pathname === '/'
+
+  const handleLogoutClick = () => {
+    setIsLogoutModalOpen(true)
+  }
+
+  const handleLogoutConfirm = () => {
+    logOut()
+    setIsLogoutModalOpen(false)
+  }
+
+  const handleLogoutCancel = () => {
+    setIsLogoutModalOpen(false)
+  }
 
   return (
     <div className="relative">
@@ -45,7 +61,7 @@ export const HeroBanner = () => {
       {isHomePage && (
         <div className="absolute top-0 right-0 h-full w-[24px] bg-[var(--color-mountain-dew-3)] hover:bg-[var(--color-mountain-dew-4)] transition-colors rounded-lg flex items-center justify-center">
           <button
-            onClick={() => logOut()}
+            onClick={handleLogoutClick}
             disabled={isLoading}
             className="disabled:opacity-50 flex items-center justify-center"
           >
@@ -53,6 +69,13 @@ export const HeroBanner = () => {
           </button>
         </div>
       )}
+
+      <LogoutModal
+        isOpen={isLogoutModalOpen}
+        onClose={handleLogoutCancel}
+        onConfirm={handleLogoutConfirm}
+        isLoading={isLoading}
+      />
     </div>
   )
 }

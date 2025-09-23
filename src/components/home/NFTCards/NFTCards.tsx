@@ -2,9 +2,14 @@
 
 import { NFTModal } from './NFTModal'
 import { NFTSmallCard } from './NFTSmallCard'
-import { INFINITE_SCROLL_ROOT_MARGIN, INFINITE_SCROLL_THRESHOLD } from './constants'
+import {
+  INFINITE_SCROLL_ROOT_MARGIN,
+  INFINITE_SCROLL_THRESHOLD,
+  MODAL_CLOSE_TIMEOUT,
+  SKELETON_COUNT,
+} from './constants'
 
-import { Skeleton } from '@/ui/skeleton'
+import { Skeleton } from '@/ui/Skeleton/Skeleton'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 
@@ -32,7 +37,7 @@ export const NFTCards = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false)
-    setTimeout(() => setSelectedNFTAddress(null), 750)
+    setTimeout(() => setSelectedNFTAddress(null), MODAL_CLOSE_TIMEOUT)
   }
 
   if (error) {
@@ -41,17 +46,17 @@ export const NFTCards = () => {
 
   return (
     <div className="w-full">
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 p-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 p-4 place-items-center">
         {data.map((nft) => (
           <NFTSmallCard key={nft.nft_address} data={{ address: nft.nft_address }} onClick={() => handleNFTClick(nft)} />
         ))}
 
         {isLoading &&
-          Array.from({ length: 12 }).map((_, index) => (
+          Array.from({ length: SKELETON_COUNT }).map((_, index) => (
             <Skeleton key={`skeleton-${index}`} className="w-[100px] h-[100px] rounded-lg" />
           ))}
       </div>
-      {canLoadMore && <div className=" mt-30" ref={triggerRef}></div>}
+      {canLoadMore && <div className="mt-30" ref={triggerRef}></div>}
 
       {!isLoading && data.length === 0 && !error && (
         <div className="text-center p-8 bg-[var(--color-blue-light)] rounded-lg">

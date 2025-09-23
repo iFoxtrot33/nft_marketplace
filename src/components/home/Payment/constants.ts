@@ -1,0 +1,3 @@
+export const CONFETTI_TIMEOUT = 3000
+
+export const DEFAULT_CART_ITEMS_COUNT = 0

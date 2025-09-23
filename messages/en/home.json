@@ -11,5 +11,19 @@
   "nftDescription": "Description:",
   "nftRawAddress": "NFT Raw Address:",
   "nftFriendlyAddress": "NFT Friendly Address:",
-  "ownerAddress": "Owner Address:"
+  "ownerAddress": "Owner Address:",
+  "payment": {
+    "button": "Payment",
+    "emptyCart": "Add items to cart",
+    "modal": {
+      "title": "You have {count} NFTs in your cart",
+      "continueShopping": "Continue Shopping",
+      "payNow": "Pay Now",
+      "processing": "Processing..."
+    }
+  },
+  "nftModal": {
+    "removeItem": "Remove Item",
+    "addToCart": "Add to cart"
+  }
 }

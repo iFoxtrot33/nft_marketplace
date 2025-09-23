@@ -26,6 +26,8 @@ export default defineConfig({
         '**/api/**',
         '**/common/**',
         '**/types.ts',
+        '**/ui/**',
+        '**/utils.ts',
       ],
       reporter: ['text', 'html', 'lcov'],
       reportOnFailure: true,

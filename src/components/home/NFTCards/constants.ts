@@ -1,2 +1,6 @@
 export const INFINITE_SCROLL_ROOT_MARGIN = '50px'
 export const INFINITE_SCROLL_THRESHOLD = 0.1
+
+export const MODAL_CLOSE_TIMEOUT = 750
+
+export const SKELETON_COUNT = 12

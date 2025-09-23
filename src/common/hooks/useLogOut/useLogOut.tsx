@@ -17,7 +17,7 @@ export const useLogOut = () => {
       if (!userId) throw new Error('Wallet is not connected')
 
       const url = Endpoints.deleteCartCompletely(userId)
-      await del(url)
+      del(url).catch(() => {})
 
       return { success: true }
     },

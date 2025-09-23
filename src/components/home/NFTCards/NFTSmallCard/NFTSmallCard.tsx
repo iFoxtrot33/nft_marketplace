@@ -4,7 +4,7 @@ import { MAX_IMAGE_ATTEMPTS } from './constants'
 import { INFTSmallCardProps } from './types'
 import { canShowImage, getNFTImageSrc } from './utils'
 
-import { Skeleton } from '@/ui/skeleton'
+import { Skeleton } from '@/ui/Skeleton/Skeleton'
 import Image from 'next/image'
 import { useState } from 'react'
 
