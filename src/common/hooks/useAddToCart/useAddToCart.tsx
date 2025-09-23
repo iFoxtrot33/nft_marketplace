@@ -3,7 +3,7 @@
 import { Endpoints } from '../../api/endpoints'
 import { post } from '../../api/rest'
 import { retryConfig } from '../../api/utils'
-import type { AddToCartRequest } from '../../types/cart'
+import type { AddToCartRequest, CartData } from '../../types/cart'
 import { IAddToCartResponse } from './types'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -21,8 +21,34 @@ export const useAddToCart = () => {
       const { data } = await post<IAddToCartResponse, AddToCartRequest>(url, payload)
       return data
     },
+    onMutate: async (payload) => {
+      await queryClient.cancelQueries({ queryKey: ['cart', userId] })
+      const previous = queryClient.getQueryData(['cart', userId]) as { data: CartData } | undefined
+
+      queryClient.setQueryData(['cart', userId], (oldData: { data: CartData } | undefined) => {
+        if (!oldData?.data) return oldData
+        const currentNfts: string[] = oldData.data.nfts || []
+        return {
+          ...oldData,
+          data: {
+            ...oldData.data,
+            nfts: currentNfts.includes(payload.nft_address) ? currentNfts : [...currentNfts, payload.nft_address],
+          },
+        }
+      })
+
+      return { previous }
+    },
+    onError: (_err, _payload, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(['cart', userId], context.previous)
+      }
+    },
     onSuccess: (res) => {
       queryClient.setQueryData(['cart', userId], { data: res.data })
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['cart', userId] })
     },
     ...retryConfig,
   })

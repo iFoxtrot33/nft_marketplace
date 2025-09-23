@@ -11,6 +11,7 @@ const buttonVariants = cva(
       variant: {
         primary:
           'text-black shadow-[0_4px_8.3px_0_var(--color-yellow-light),inset_0_1px_0_rgba(255,255,255,0.2)] hover:opacity-90 active:scale-95 bg-[linear-gradient(89deg,var(--color-mountain-dew-1)_-19.28%,var(--color-mountain-dew-2)_19.01%,var(--color-mountain-dew-3)_66.59%,var(--color-mountain-dew-4)_100.08%)] backdrop-blur-sm border border-white/20 before:content-[""] before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-transparent before:via-white/30 before:to-transparent before:transition-all before:duration-500 hover:before:left-full',
+        danger: 'text-white hover:opacity-90 active:scale-95 !bg-[var(--color-red-dark)] border-none',
         disabled:
           'border-2 border-[var(--color-disabled-5)] bg-[radial-gradient(46.43%_176.04%_at_50%_-76.04%,var(--color-disabled-1)_0%,var(--color-disabled-2)_50%,var(--color-disabled-3)_100%)] backdrop-blur-md bg-opacity-60 text-white/60 cursor-not-allowed pointer-events-none before:opacity-30',
       },

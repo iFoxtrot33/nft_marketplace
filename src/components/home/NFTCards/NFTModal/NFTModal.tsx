@@ -4,6 +4,7 @@ import { NEXT_ATTEMPT_DELAY, TRANSITION_DURATION } from './constants'
 import { INFTModalProps } from './types'
 import { buildProxiedCandidateUrls, getImageUrlByIndex, scheduleNextAttempt } from './utils'
 
+import { Button } from '@/ui/Button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/ui/dialog'
 import { Skeleton } from '@/ui/skeleton'
 import { X } from 'lucide-react'
@@ -11,7 +12,7 @@ import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { useEffect, useMemo, useState } from 'react'
 
-import { toFriendlyAddress, useGetNFT } from '@/common'
+import { toFriendlyAddress, useAddToCart, useCart, useGetNFT, useRemoveItemFromCart } from '@/common'
 
 export const NFTModal: React.FC<INFTModalProps> = ({ isOpen, onClose, nftAddress }) => {
   const t = useTranslations('homePage')
@@ -19,8 +20,15 @@ export const NFTModal: React.FC<INFTModalProps> = ({ isOpen, onClose, nftAddress
   const [imageLoading, setImageLoading] = useState(true)
   const [imageError, setImageError] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const { addToCart } = useAddToCart()
+  const { removeFromCart } = useRemoveItemFromCart()
+  const { cart } = useCart()
 
   const candidateUrls = useMemo(() => buildProxiedCandidateUrls(nftData), [nftData])
+  const isInCart = useMemo(() => {
+    if (!cart?.nfts || !nftAddress) return false
+    return cart.nfts.includes(nftAddress)
+  }, [cart?.nfts, nftAddress])
 
   const getImageUrl = () => getImageUrlByIndex(candidateUrls, currentImageIndex)
 
@@ -111,6 +119,32 @@ export const NFTModal: React.FC<INFTModalProps> = ({ isOpen, onClose, nftAddress
           <div>
             <h3 className="font-semibold text-[var(--color-mountain-dew-2)]">{t('ownerAddress')}</h3>
             <p className="text-white break-all text-sm">{nftData.owner?.address || 'N/A'}</p>
+          </div>
+
+          {/* Add / Remove button */}
+          <div>
+            {isInCart ? (
+              <Button
+                variant="danger"
+                onClick={() => {
+                  if (!nftAddress) return
+                  removeFromCart({ nft_address: nftAddress }).catch(() => {})
+                  onClose()
+                }}
+              >
+                Remove Item
+              </Button>
+            ) : (
+              <Button
+                onClick={() => {
+                  if (!nftAddress) return
+                  addToCart({ nft_address: nftAddress }).catch(() => {})
+                  onClose()
+                }}
+              >
+                Add to cart
+              </Button>
+            )}
           </div>
         </div>
       </DialogContent>
