@@ -36,5 +36,9 @@ export const AuthGuardLayout: React.FC<IWithChildrenProps> = ({ children }) => {
     return <AuthLoader />
   }
 
+  if (!wallet) {
+    return null
+  }
+
   return <>{children}</>
 }
