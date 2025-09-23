@@ -52,8 +52,8 @@ function DialogContent({
         className={cn(
           'bg-background fixed left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] gap-4 rounded-lg border p-6 shadow-lg sm:max-w-lg will-change-transform will-change-opacity',
           isBottomSheet
-            ? 'duration-700 ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom'
-            : 'duration-300 ease-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 top-[50%] translate-y-[-50%]',
+            ? 'duration-1000 ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom'
+            : 'duration-500 ease-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 top-[50%] translate-y-[-50%]',
           className,
         )}
         {...props}
