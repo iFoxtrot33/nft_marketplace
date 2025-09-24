@@ -10,6 +10,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Match only internationalized pathnames - more specific for better ISR support
   matcher: ['/', '/(en)/:path*', '/auth'],
 }

@@ -2,11 +2,11 @@
 
 import { MAX_IMAGE_ATTEMPTS } from './constants'
 import { INFTSmallCardProps } from './types'
-import { canShowImage, getNFTImageSrc } from './utils'
+import { canShowImage, getNFTImageSrc, isValidImageUrl } from './utils'
 
 import { Skeleton } from '@/ui/Skeleton/Skeleton'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useCart, useGetNFT } from '@/common'
 
@@ -14,17 +14,28 @@ export const NFTSmallCard: React.FC<INFTSmallCardProps> = ({ data, onClick }) =>
   const { data: nftData, isLoading, error } = useGetNFT({ address: data.address })
   const { cart } = useCart()
   const [failedAttempts, setFailedAttempts] = useState(0)
+  const [imageLoaded, setImageLoaded] = useState(false)
+
+  const hasValidOriginalUrl = nftData?.metadata?.image ? isValidImageUrl(nftData.metadata.image) : false
 
   const imageSrc = getNFTImageSrc(nftData, failedAttempts)
   const shouldShowImage = canShowImage(failedAttempts)
   const hasImageFailed = failedAttempts >= MAX_IMAGE_ATTEMPTS
   const isInCart = cart?.nfts?.includes(data.address) || false
 
+  useEffect(() => {
+    setImageLoaded(false)
+  }, [imageSrc])
+
   if (isLoading) {
     return <Skeleton className={`w-[100px] h-[100px] rounded-lg`} />
   }
 
   if (error || !nftData) {
+    return null
+  }
+
+  if (!hasValidOriginalUrl) {
     return null
   }
 
@@ -60,14 +71,22 @@ export const NFTSmallCard: React.FC<INFTSmallCardProps> = ({ data, onClick }) =>
       type="button"
     >
       {imageSrc && shouldShowImage && (
-        <Image
-          src={imageSrc}
-          alt={nftData.metadata.name || 'NFT'}
-          width={96}
-          height={96}
-          className="w-full h-full object-cover rounded-lg p-1"
-          onError={() => setFailedAttempts((prev) => prev + 1)}
-        />
+        <>
+          <Image
+            src={imageSrc}
+            alt={nftData.metadata.name || 'NFT'}
+            width={96}
+            height={96}
+            className="w-full h-full object-cover rounded-lg p-1"
+            onLoad={() => setImageLoaded(true)}
+            onError={() => setFailedAttempts((prev) => prev + 1)}
+          />
+          {!imageLoaded && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Skeleton className="w-full h-full rounded-lg" />
+            </div>
+          )}
+        </>
       )}
 
       {isInCart && (

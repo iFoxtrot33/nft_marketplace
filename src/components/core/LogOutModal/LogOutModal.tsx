@@ -1,16 +1,13 @@
 'use client'
 
+import { ILogoutModalProps } from './types'
+
 import { Button } from '@/ui/Button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/ui/Dialog'
+import { useTranslations } from 'next-intl'
 
-interface LogoutModalProps {
-  isOpen: boolean
-  onClose: () => void
-  onConfirm: () => void
-  isLoading?: boolean
-}
-
-export const LogoutModal = ({ isOpen, onClose, onConfirm, isLoading = false }: LogoutModalProps) => {
+export const LogoutModal: React.FC<ILogoutModalProps> = ({ isOpen, onClose, onConfirm, isLoading = false }) => {
+  const t = useTranslations('authPage')
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent
@@ -19,17 +16,17 @@ export const LogoutModal = ({ isOpen, onClose, onConfirm, isLoading = false }: L
       >
         <DialogHeader>
           <DialogTitle className="text-center text-lg font-semibold text-white">
-            Are you sure you want to log in?
+            {t('areYouSureYouWantToLogOut')}
           </DialogTitle>
         </DialogHeader>
 
         <div className="flex gap-3 mt-6">
           <Button variant="primary" onClick={onClose} className="flex-1 text-background-black" disabled={isLoading}>
-            Continue shopping
+            {t('continueShopping')}
           </Button>
 
           <Button variant="danger" onClick={onConfirm} disabled={isLoading} className="flex-1 text-white">
-            Log out
+            {t('logout')}
           </Button>
         </div>
       </DialogContent>

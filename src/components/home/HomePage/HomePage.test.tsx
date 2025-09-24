@@ -3,7 +3,6 @@ import { HomePage } from './HomePage'
 import { render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-// Mock components
 vi.mock('@/components', () => ({
   HeroBanner: vi.fn(() => <div data-testid="hero-banner">HeroBanner</div>),
   NFTCards: vi.fn(() => <div data-testid="nft-cards">NFTCards</div>),

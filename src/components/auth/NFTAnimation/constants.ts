@@ -13,7 +13,6 @@ export const NFTCardConstants = [
   { id: 12, imageUrl: '/animation-nft/12.webp' },
 ]
 
-// Layout constants
 export const CARD_HEIGHT = 86
 export const MARGIN_BOTTOM = 16
 export const HEADER_HEIGHT = 120

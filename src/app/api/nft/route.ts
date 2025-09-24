@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-import { FORCE_DYNAMIC, NotionRequest, getAllNFTs, logger, withNotionHeaders } from '@/common'
+import { FORCE_DYNAMIC, HTTP_STATUS, NotionRequest, getAllNFTs, logger, withNotionHeaders } from '@/common'
 
 export const dynamic = FORCE_DYNAMIC
 
@@ -64,7 +64,7 @@ async function getHandler(req: NotionRequest): Promise<NextResponse> {
   const result = await getAllNFTs(req.notionHeaders, limit, offset, start_cursor)
 
   if (!result.success) {
-    return NextResponse.json({ error: result.error }, { status: 500 })
+    return NextResponse.json({ error: result.error }, { status: HTTP_STATUS.INTERNAL_SERVER_ERROR })
   }
 
   return NextResponse.json({

@@ -54,7 +54,6 @@ vi.mock('three/examples/jsm/loaders/DRACOLoader.js', () => ({
   })),
 }))
 
-// Store timeout IDs to clear them after tests
 const timeoutIds: number[] = []
 
 global.requestAnimationFrame = vi.fn((callback: FrameRequestCallback) => {
@@ -77,7 +76,6 @@ describe('ThreeBanner', () => {
   })
 
   afterEach(() => {
-    // Clear all pending timeouts after each test
     timeoutIds.forEach((id) => clearTimeout(id))
     timeoutIds.length = 0
     cleanup()

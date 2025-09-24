@@ -1,6 +1,7 @@
 'use client'
 
 import { AuthLoader } from '../AuthLoader'
+import { DELAY_TIME } from './constants'
 
 import { useTonWallet } from '@tonconnect/ui-react'
 import { useRouter } from 'next/navigation'
@@ -21,7 +22,7 @@ export const AuthGuardLayout: React.FC<IWithChildrenProps> = ({ children }) => {
       Promise.all([authPrefetch, homePrefetch])
         .then(() => setIsLoading(false))
         .catch(() => setIsLoading(false))
-    }, 2000)
+    }, DELAY_TIME)
 
     return () => clearTimeout(minTimer)
   }, [router])

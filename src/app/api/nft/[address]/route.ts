@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 
 import {
   FORCE_DYNAMIC,
+  HTTP_STATUS,
   NotionRequest,
   createNFT,
   deleteNFT,
@@ -53,7 +54,7 @@ async function getHandler(req: NotionRequest, { params }: { params: { address: s
   const searchResult = await findNFTPageIdByAddress(address, req.notionHeaders)
 
   if (!searchResult.found || !searchResult.nft) {
-    return NextResponse.json({ error: 'NFT not found' }, { status: 404 })
+    return NextResponse.json({ error: 'NFT not found' }, { status: HTTP_STATUS.NOT_FOUND })
   }
 
   return NextResponse.json({
@@ -105,7 +106,8 @@ async function postHandler(req: NotionRequest, { params }: { params: { address: 
     const result = await createNFT(address, req.notionHeaders)
 
     if (!result.success) {
-      const statusCode = result.error === 'NFT with this address already exists' ? 409 : 400
+      const statusCode =
+        result.error === 'NFT with this address already exists' ? HTTP_STATUS.CONFLICT : HTTP_STATUS.BAD_REQUEST
       return NextResponse.json({ error: result.error }, { status: statusCode })
     }
 
@@ -114,11 +116,11 @@ async function postHandler(req: NotionRequest, { params }: { params: { address: 
         success: true,
         data: result.nft,
       },
-      { status: 201 },
+      { status: HTTP_STATUS.CREATED },
     )
   } catch (error) {
     logger.error({ error }, 'Error creating NFT')
-    return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
+    return NextResponse.json({ error: 'Invalid request body' }, { status: HTTP_STATUS.BAD_REQUEST })
   }
 }
 
@@ -175,7 +177,7 @@ async function patchHandler(req: NotionRequest, { params }: { params: { address:
     const body: { updated_nft_address: string } = await req.json()
 
     if (!body.updated_nft_address) {
-      return NextResponse.json({ error: 'updated_nft_address is required' }, { status: 400 })
+      return NextResponse.json({ error: 'updated_nft_address is required' }, { status: HTTP_STATUS.BAD_REQUEST })
     }
 
     logger.info({ current_address: address, new_address: body.updated_nft_address }, 'Update NFT address request')
@@ -196,7 +198,7 @@ async function patchHandler(req: NotionRequest, { params }: { params: { address:
     })
   } catch (error) {
     logger.error({ error }, 'Error updating NFT')
-    return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
+    return NextResponse.json({ error: 'Invalid request body' }, { status: HTTP_STATUS.BAD_REQUEST })
   }
 }
 
@@ -254,7 +256,7 @@ async function deleteHandler(req: NotionRequest, { params }: { params: { address
     const result = await deleteNFT(address, req.notionHeaders)
 
     if (!result.success) {
-      const statusCode = result.error === 'NFT not found' ? 404 : 500
+      const statusCode = result.error === 'NFT not found' ? HTTP_STATUS.NOT_FOUND : HTTP_STATUS.INTERNAL_SERVER_ERROR
       return NextResponse.json({ error: result.error }, { status: statusCode })
     }
 
@@ -265,7 +267,7 @@ async function deleteHandler(req: NotionRequest, { params }: { params: { address
     })
   } catch (error) {
     logger.error({ error }, 'Error deleting NFT')
-    return NextResponse.json({ error: 'Server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Server error' }, { status: HTTP_STATUS.INTERNAL_SERVER_ERROR })
   }
 }
 

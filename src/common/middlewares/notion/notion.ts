@@ -1,17 +1,14 @@
+import { NOTION_VERSION } from './constants'
+import { NotionRequest } from './types'
+
 import { Client } from '@notionhq/client'
 import { NextRequest, NextResponse } from 'next/server'
+
+import { HTTP_STATUS } from '@/common'
 
 const notion = new Client({
   auth: process.env.NOTION_TOKEN,
 })
-
-export const NOTION_VERSION = '2022-06-28'
-export const NFT_DATABASE_ID = process.env.NOTION_NFTS_TABLE_ID!
-
-export interface NotionRequest extends NextRequest {
-  notion: Client
-  notionHeaders: Record<string, string>
-}
 
 export function withNotionHeaders<T extends unknown[]>(
   handler: (req: NotionRequest, ...args: T) => Promise<NextResponse>,
@@ -32,18 +29,18 @@ export function withNotionHeaders<T extends unknown[]>(
       const notionError = error as { code?: string }
 
       if (notionError.code === 'object_not_found') {
-        return NextResponse.json({ error: 'NFT not found' }, { status: 404 })
+        return NextResponse.json({ error: 'NFT not found' }, { status: HTTP_STATUS.NOT_FOUND })
       }
 
       if (notionError.code === 'validation_error') {
-        return NextResponse.json({ error: 'Invalid data format' }, { status: 400 })
+        return NextResponse.json({ error: 'Invalid data format' }, { status: HTTP_STATUS.BAD_REQUEST })
       }
 
       if (notionError.code === 'rate_limited') {
-        return NextResponse.json({ error: 'Rate limited. Try again later' }, { status: 429 })
+        return NextResponse.json({ error: 'Rate limited. Try again later' }, { status: HTTP_STATUS.TOO_MANY_REQUESTS })
       }
 
-      return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+      return NextResponse.json({ error: 'Internal server error' }, { status: HTTP_STATUS.INTERNAL_SERVER_ERROR })
     }
   }
 }

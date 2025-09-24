@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-import { FORCE_DYNAMIC, NotionRequest, clearCart, logger, withNotionHeaders } from '@/common'
+import { FORCE_DYNAMIC, HTTP_STATUS, NotionRequest, clearCart, logger, withNotionHeaders } from '@/common'
 
 export const dynamic = FORCE_DYNAMIC
 
@@ -57,7 +57,7 @@ async function deleteHandler(req: NotionRequest, { params }: { params: { userid:
     const result = await clearCart(userid, req.notionHeaders)
 
     if (!result.success) {
-      const statusCode = result.error === 'Cart not found' ? 404 : 500
+      const statusCode = result.error === 'Cart not found' ? HTTP_STATUS.NOT_FOUND : HTTP_STATUS.INTERNAL_SERVER_ERROR
       return NextResponse.json({ error: result.error }, { status: statusCode })
     }
 
@@ -68,7 +68,7 @@ async function deleteHandler(req: NotionRequest, { params }: { params: { userid:
     })
   } catch (error) {
     logger.error({ error }, 'Error in clear cart')
-    return NextResponse.json({ error: 'Server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Server error' }, { status: HTTP_STATUS.INTERNAL_SERVER_ERROR })
   }
 }
 

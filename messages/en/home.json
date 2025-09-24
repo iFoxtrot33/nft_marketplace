@@ -12,6 +12,8 @@
   "nftRawAddress": "NFT Raw Address:",
   "nftFriendlyAddress": "NFT Friendly Address:",
   "ownerAddress": "Owner Address:",
+  "N/A": "N/A",
+  "NFT": "NFT",
   "payment": {
     "button": "Payment",
     "emptyCart": "Add items to cart",

@@ -18,7 +18,7 @@ import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { useEffect, useMemo, useState } from 'react'
 
-import { toFriendlyAddress, useAddToCart, useCart, useGetNFT, useRemoveItemFromCart } from '@/common'
+import { useAddToCart, useCart, useGetNFT, useRemoveItemFromCart } from '@/common'
 
 export const NFTModal: React.FC<INFTModalProps> = ({ isOpen, onClose, nftAddress }) => {
   const t = useTranslations('homePage')
@@ -98,27 +98,27 @@ export const NFTModal: React.FC<INFTModalProps> = ({ isOpen, onClose, nftAddress
 
           <div>
             <h3 className="font-semibold text-[var(--color-mountain-dew-2)]">{t('nftName')}</h3>
-            <p className="text-white">{nftData.metadata.name || 'N/A'}</p>
+            <p className="text-white">{nftData.metadata.name || t('N/A')}</p>
           </div>
 
           <div>
             <h3 className="font-semibold text-[var(--color-mountain-dew-2)]">{t('nftDescription')}</h3>
-            <p className="text-white">{nftData.metadata.description || 'N/A'}</p>
+            <p className="text-white">{nftData.metadata.description || t('N/A')}</p>
           </div>
 
           <div>
             <h3 className="font-semibold text-[var(--color-mountain-dew-2)]	">{t('nftRawAddress')}</h3>
-            <p className="text-white break-all text-sm">{nftData.address || 'N/A'}</p>
+            <p className="text-white break-all text-sm">{nftData.address || t('N/A')}</p>
           </div>
 
           <div>
             <h3 className="font-semibold text-[var(--color-mountain-dew-2)]">{t('nftFriendlyAddress')}</h3>
-            <p className="text-white break-all text-sm">{toFriendlyAddress(nftData.address)}</p>
+            <p className="text-white break-all text-sm">{nftAddress}</p>
           </div>
 
           <div>
             <h3 className="font-semibold text-[var(--color-mountain-dew-2)]">{t('ownerAddress')}</h3>
-            <p className="text-white break-all text-sm">{nftData.owner?.address || 'N/A'}</p>
+            <p className="text-white break-all text-sm">{nftData.owner?.address || t('N/A')}</p>
           </div>
 
           <div>

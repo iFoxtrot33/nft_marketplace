@@ -4,6 +4,17 @@ import { TONNFTData } from '@/common'
 
 const toProxy = (url: string) => `/api/image-proxy?url=${encodeURIComponent(url)}`
 
+export const isValidImageUrl = (url: string): boolean => {
+  if (!url || typeof url !== 'string') return false
+
+  try {
+    const urlObj = new URL(url)
+    return ['http:', 'https:'].includes(urlObj.protocol) && urlObj.hostname.length > 0
+  } catch {
+    return false
+  }
+}
+
 export const getNFTImageSrc = (nftData: TONNFTData | undefined, failedAttempts: number): string => {
   if (!nftData) return ''
 

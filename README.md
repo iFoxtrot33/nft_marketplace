@@ -7,7 +7,7 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/iFoxtrot33/nft_marketplace/badge.svg)](https://snyk.io/test/github/iFoxtrot33/nft_marketplace)
 
 ## ℹ About
-TON home take-home assignment. Done by Iurii Furman. 
+TON take-home assignment. Done by Iurii Furman. 
 
 ## 📋 Description and Requirements
 https://ton-org.notion.site/TS-Product-take-home-assignment-1745274bd2cf80689ec0dec263902ac8

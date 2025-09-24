@@ -6,7 +6,7 @@ import { APIResponse, UseGetNFTsProps, UseGetNFTsReturn } from './types'
 
 import { useInfiniteQuery } from '@tanstack/react-query'
 
-export const useGetNFTs = ({ limit = 12 }: UseGetNFTsProps = {}): UseGetNFTsReturn => {
+export const useGetNFTs = ({ limit = 6 }: UseGetNFTsProps = {}): UseGetNFTsReturn => {
   const { data, isLoading, error, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ['nfts', limit],
     queryFn: async ({ pageParam = 0 }) => {

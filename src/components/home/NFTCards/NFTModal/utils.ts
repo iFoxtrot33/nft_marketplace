@@ -1,4 +1,4 @@
-import { MAX_INDEX_OFFSET, MIN_INDEX } from './constants'
+import { INDEX_STEP, MAX_INDEX_OFFSET, MIN_INDEX, ZERO_DELAY_MS } from './constants'
 
 import { TONNFTData } from '@/common/types'
 
@@ -30,14 +30,14 @@ export const getImageUrlByIndex = (candidates: string[], index: number): string 
 export const scheduleNextAttempt = (
   currentIndex: number,
   setIndex: (updater: (prev: number) => number) => void,
-  delayMs = 0,
+  delayMs = ZERO_DELAY_MS,
 ) => {
-  if (delayMs <= 0) {
-    setIndex((prev) => prev + 1)
+  if (delayMs <= ZERO_DELAY_MS) {
+    setIndex((prev) => prev + INDEX_STEP)
     return
   }
   window.setTimeout(() => {
-    setIndex((prev) => prev + 1)
+    setIndex((prev) => prev + INDEX_STEP)
   }, delayMs)
 }
 

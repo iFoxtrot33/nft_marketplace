@@ -9,7 +9,7 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 
-import { useLogOut } from '@/common'
+import { PageRoute, useLogOut } from '@/common'
 
 export const HeroBanner = () => {
   const t = useTranslations('authPage')
@@ -17,7 +17,7 @@ export const HeroBanner = () => {
   const { logOut, isLoading } = useLogOut()
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
 
-  const isHomePage = pathname === '/'
+  const isHomePage = pathname === PageRoute.home
 
   const handleLogoutClick = () => {
     setIsLogoutModalOpen(true)

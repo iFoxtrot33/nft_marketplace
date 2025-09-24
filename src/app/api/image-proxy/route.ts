@@ -1,26 +1,24 @@
 import { NextResponse } from 'next/server'
 
-const CACHE_S_MAXAGE = 60 * 60 * 24
-const CACHE_STALE_WHILE_REVALIDATE = 60 * 60 * 12
-const USER_AGENT = 'Mozilla/5.0 (compatible; NFTMarketBot/1.0; +https://example.com)'
+import { CACHE_STALE_WHILE_REVALIDATE, CACHE_S_MAXAGE, HTTP_STATUS, USER_AGENT } from '@/common'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const target = searchParams.get('url')
 
   if (!target) {
-    return NextResponse.json({ error: 'Missing url param' }, { status: 400 })
+    return NextResponse.json({ error: 'Missing url param' }, { status: HTTP_STATUS.BAD_REQUEST })
   }
 
   let url: URL
   try {
     url = new URL(target)
   } catch {
-    return NextResponse.json({ error: 'Invalid url' }, { status: 400 })
+    return NextResponse.json({ error: 'Invalid url' }, { status: HTTP_STATUS.BAD_REQUEST })
   }
 
   if (!['http:', 'https:'].includes(url.protocol)) {
-    return NextResponse.json({ error: 'Unsupported protocol' }, { status: 400 })
+    return NextResponse.json({ error: 'Unsupported protocol' }, { status: HTTP_STATUS.BAD_REQUEST })
   }
 
   try {
@@ -43,6 +41,6 @@ export async function GET(request: Request) {
       },
     })
   } catch (_e) {
-    return NextResponse.json({ error: 'Fetch failed' }, { status: 502 })
+    return NextResponse.json({ error: 'Fetch failed' }, { status: HTTP_STATUS.BAD_GATEWAY })
   }
 }

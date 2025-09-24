@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server'
 import {
   AddToCartRequest,
   FORCE_DYNAMIC,
+  HTTP_STATUS,
   NotionRequest,
   RemoveFromCartRequest,
   addToCart,
@@ -54,7 +55,7 @@ async function getHandler(req: NotionRequest, { params }: { params: { userid: st
   const searchResult = await findCartByUserId(userid, req.notionHeaders)
 
   if (!searchResult.found || !searchResult.cart) {
-    return NextResponse.json({ error: 'Cart not found' }, { status: 404 })
+    return NextResponse.json({ error: 'Cart not found' }, { status: HTTP_STATUS.NOT_FOUND })
   }
 
   return NextResponse.json({
@@ -127,7 +128,7 @@ async function postHandler(req: NotionRequest, { params }: { params: { userid: s
     const body: AddToCartRequest = await req.json()
 
     if (!body.nft_address) {
-      return NextResponse.json({ error: 'nft_address is required' }, { status: 400 })
+      return NextResponse.json({ error: 'nft_address is required' }, { status: HTTP_STATUS.BAD_REQUEST })
     }
 
     logger.info({ user_id: userid, nft_address: body.nft_address }, 'Add to cart request')
@@ -135,10 +136,11 @@ async function postHandler(req: NotionRequest, { params }: { params: { userid: s
     const result = await addToCart(userid, body.nft_address, req.notionHeaders)
 
     if (!result.success) {
-      return NextResponse.json({ error: result.error }, { status: 400 })
+      return NextResponse.json({ error: result.error }, { status: HTTP_STATUS.BAD_REQUEST })
     }
 
-    const statusCode = result.cart?.created_time === result.cart?.last_edited_time ? 201 : 200
+    const statusCode =
+      result.cart?.created_time === result.cart?.last_edited_time ? HTTP_STATUS.CREATED : HTTP_STATUS.SUCCESS
 
     return NextResponse.json(
       {
@@ -149,7 +151,7 @@ async function postHandler(req: NotionRequest, { params }: { params: { userid: s
     )
   } catch (error) {
     logger.error({ error }, 'Error in add to cart')
-    return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
+    return NextResponse.json({ error: 'Invalid request body' }, { status: HTTP_STATUS.BAD_REQUEST })
   }
 }
 
@@ -212,7 +214,7 @@ async function deleteHandler(req: NotionRequest, { params }: { params: { userid:
     const body: RemoveFromCartRequest = await req.json()
 
     if (!body.nft_address) {
-      return NextResponse.json({ error: 'nft_address is required' }, { status: 400 })
+      return NextResponse.json({ error: 'nft_address is required' }, { status: HTTP_STATUS.BAD_REQUEST })
     }
 
     logger.info({ user_id: userid, nft_address: body.nft_address }, 'Remove from cart request')
@@ -220,7 +222,7 @@ async function deleteHandler(req: NotionRequest, { params }: { params: { userid:
     const result = await removeFromCart(userid, body.nft_address, req.notionHeaders)
 
     if (!result.success) {
-      const statusCode = result.error === 'Cart not found' ? 404 : 400
+      const statusCode = result.error === 'Cart not found' ? HTTP_STATUS.NOT_FOUND : HTTP_STATUS.BAD_REQUEST
       return NextResponse.json({ error: result.error }, { status: statusCode })
     }
 
@@ -230,7 +232,7 @@ async function deleteHandler(req: NotionRequest, { params }: { params: { userid:
     })
   } catch (error) {
     logger.error({ error }, 'Error in remove from cart')
-    return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
+    return NextResponse.json({ error: 'Invalid request body' }, { status: HTTP_STATUS.BAD_REQUEST })
   }
 }
 
