@@ -1,6 +1,7 @@
 import { Login } from './Login'
 
 import { fireEvent, render, screen } from '@testing-library/react'
+import { NextIntlClientProvider } from 'next-intl'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const mockOpenModal = vi.fn()
@@ -29,6 +30,15 @@ vi.mock('@/ui/Button', () => ({
   )),
 }))
 
+const Wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <NextIntlClientProvider
+    locale="en"
+    messages={{ authPage: { signInWithTONConnect: 'Sign In with TON Connect' } } as any}
+  >
+    {children}
+  </NextIntlClientProvider>
+)
+
 describe('Login', () => {
   beforeEach(() => {
     vi.clearAllMocks()
@@ -36,19 +46,19 @@ describe('Login', () => {
 
   it('renders without crashing', () => {
     expect(() => {
-      render(<Login />)
+      render(<Login />, { wrapper: Wrapper })
     }).not.toThrow()
   })
 
   it('renders login button with correct text', () => {
-    render(<Login />)
+    render(<Login />, { wrapper: Wrapper })
 
     expect(screen.getByTestId('login-button')).toBeInTheDocument()
     expect(screen.getByText('Sign In with TON Connect')).toBeInTheDocument()
   })
 
   it('calls openModal when button is clicked', () => {
-    render(<Login />)
+    render(<Login />, { wrapper: Wrapper })
 
     const button = screen.getByTestId('login-button')
     fireEvent.click(button)
@@ -62,7 +72,7 @@ describe('Login', () => {
       account: { address: 'test-address' },
     } as any)
 
-    render(<Login />)
+    render(<Login />, { wrapper: Wrapper })
 
     expect(mockPush).toHaveBeenCalledWith('/')
   })

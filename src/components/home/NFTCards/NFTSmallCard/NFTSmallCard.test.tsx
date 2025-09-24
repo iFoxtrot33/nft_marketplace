@@ -24,6 +24,7 @@ vi.mock('@/common', () => ({
 vi.mock('./utils', () => ({
   getNFTImageSrc: vi.fn(() => 'test-image.jpg'),
   canShowImage: vi.fn(() => true),
+  isValidImageUrl: vi.fn(() => true),
 }))
 
 vi.mock('./constants', () => ({

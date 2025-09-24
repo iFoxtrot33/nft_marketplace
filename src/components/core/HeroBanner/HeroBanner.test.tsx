@@ -38,6 +38,7 @@ vi.mock('@/common', () => ({
     isLoading: false,
     error: null,
   })),
+  PageRoute: { home: '/' },
 }))
 
 describe('AuthBanner', () => {

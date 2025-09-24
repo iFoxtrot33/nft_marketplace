@@ -61,6 +61,6 @@ describe('Payment', () => {
     render(<Payment />)
 
     expect(screen.getByText('Payment')).toBeInTheDocument()
-    expect(screen.getByText('2')).toBeInTheDocument() // Badge count
+    expect(screen.getByText('2')).toBeInTheDocument()
   })
 })

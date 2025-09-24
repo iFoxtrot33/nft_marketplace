@@ -20,7 +20,6 @@ describe('NFTAnimation', () => {
   const originalInnerHeight = window.innerHeight
 
   beforeEach(() => {
-    // Mock window.innerHeight
     Object.defineProperty(window, 'innerHeight', {
       writable: true,
       configurable: true,
