@@ -86,7 +86,7 @@ describe('NFTCards', () => {
 
     render(<NFTCards />)
 
-    expect(screen.getAllByTestId('skeleton')).toHaveLength(12)
+    expect(screen.getAllByTestId('skeleton')).toHaveLength(6)
   })
 
   it('renders error component when error occurs', async () => {
