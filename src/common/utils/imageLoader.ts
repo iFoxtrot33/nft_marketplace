@@ -4,14 +4,19 @@ type LoaderParams = {
   quality?: number
 }
 
-export default function imageProxyLoader({ src }: LoaderParams): string {
+export default function imageProxyLoader({ src, width, quality }: LoaderParams): string {
   if (src.startsWith('/api/image-proxy')) {
-    return src
+    const sep = src.includes('?') ? '&' : '?'
+    const q = quality ? `&q=${quality}` : ''
+    return `${src}${sep}w=${width}${q}`
   }
 
   if (src.startsWith('/') && !src.startsWith('//')) {
-    return src
+    const sep = src.includes('?') ? '&' : '?'
+    const q = quality ? `&q=${quality}` : ''
+    return `${src}${sep}w=${width}${q}`
   }
 
-  return `/api/image-proxy?url=${encodeURIComponent(src)}`
+  const q = quality ? `&q=${quality}` : ''
+  return `/api/image-proxy?url=${encodeURIComponent(src)}&w=${width}${q}`
 }
