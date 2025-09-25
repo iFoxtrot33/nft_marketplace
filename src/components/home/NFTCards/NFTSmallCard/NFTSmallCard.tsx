@@ -82,7 +82,7 @@ export const NFTSmallCard: React.FC<INFTSmallCardProps> = ({ data, onClick }) =>
             onError={() => setFailedAttempts((prev) => prev + 1)}
           />
           {!imageLoaded && (
-            <div className="absolute inset-0 flex items-center justify-center">
+            <div className="absolute inset-0 flex items-center justify-center bg-[var(--color-background-black)] rounded-lg">
               <Skeleton className="w-full h-full rounded-lg" />
             </div>
           )}
