@@ -14,6 +14,7 @@ import {
 } from '@/common'
 
 export const dynamic = FORCE_DYNAMIC
+export const revalidate = 0
 
 /**
  * @swagger

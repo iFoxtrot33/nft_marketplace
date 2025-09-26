@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server'
 import { FORCE_DYNAMIC, HTTP_STATUS, NotionRequest, clearCart, logger, withNotionHeaders } from '@/common'
 
 export const dynamic = FORCE_DYNAMIC
+export const revalidate = 0
 
 /**
  * @swagger

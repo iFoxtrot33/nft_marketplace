@@ -4,6 +4,7 @@ import { FORCE_DYNAMIC, NotionRequest, deleteCart, logger, withNotionHeaders } f
 import { HTTP_STATUS } from '@/common/constants/statusCode'
 
 export const dynamic = FORCE_DYNAMIC
+export const revalidate = 0
 
 /**
  * @swagger

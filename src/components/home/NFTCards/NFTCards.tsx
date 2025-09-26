@@ -56,11 +56,7 @@ export const NFTCards = () => {
       <div className="relative overflow-hidden rounded-2xl">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 p-4 place-items-center">
           {data.map((nft) => (
-            <NFTSmallCard
-              key={nft.nft_address}
-              data={{ address: nft.nft_address }}
-              onClick={() => handleNFTClick(nft)}
-            />
+            <NFTSmallCard key={nft.id} data={{ address: nft.nft_address }} onClick={() => handleNFTClick(nft)} />
           ))}
 
           {isLoading &&
