@@ -9,6 +9,11 @@ const nextConfig = {
     loader: 'custom',
     loaderFile: './src/common/utils/imageLoader.ts',
   },
+  logging: {
+    incomingRequests: {
+      ignore: [/\api\/image-proxy/],
+    },
+  },
 }
 
 export default withNextIntl(nextConfig)

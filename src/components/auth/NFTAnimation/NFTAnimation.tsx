@@ -26,6 +26,7 @@ export function NFTAnimation() {
       const neededRows = Math.ceil(availableHeight / rowHeight)
 
       setRowCount(Math.max(neededRows, MIN_ROW_COUNT))
+      window.scrollTo(0, 0)
     }
 
     calculateRows()
